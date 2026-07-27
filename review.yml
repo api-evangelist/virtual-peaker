@@ -1,0 +1,371 @@
+aid: virtual-peaker
+name: Virtual Peaker
+review:
+  question: >-
+    Does Virtual Peaker publish a real, downloadable public API contract, and does any energy
+    consumer-data mandate (Green Button, CDR energy, smart-meter infrastructure) attach to it?
+  answer: >-
+    Yes to the contract, no to the mandate. Two full OpenAPI 3.0.0 definitions for the Gravity
+    Connect API (v2.0.6) are served anonymously as Redoc references on assets.virtualpeaker.io and
+    were harvested verbatim. No consumer energy data right applies — Virtual Peaker is a DERMS/VPP
+    software vendor, not a utility, retailer, or data holder.
+  date: '2026-07-27'
+  reviewer: API Evangelist
+  method: Anonymous HTTP probing of virtual-peaker.com and virtualpeaker.io hosts, sitemap and
+    llms.txt enumeration, GitHub org inspection, and extraction of the embedded __redoc_state
+    OpenAPI documents from the two publicly served Redoc HTML references.
+
+energyDataPosture:
+  homeMarket: United States
+  secondaryMarket: Canada (utility.ca.virtualpeaker.io is a separate Canadian tenant; Newfoundland
+    Power is a named Canadian utility customer)
+  organizationRole: >-
+    Private grid-tech vendor — grid-edge DERMS and virtual power plant SaaS sold to investor-owned
+    utilities, municipal utilities, and rural electric cooperatives. Not a utility, not a retailer,
+    not a meter data agent, not an accredited data recipient.
+
+  mandateRegime: none
+  mandateStatus: not-applicable
+  mandateVerbatim: >-
+    No energy consumer-data obligation applies to Virtual Peaker. It is a United States software
+    vendor, not a regulated data holder. The Australian Consumer Data Right (energy) does not reach
+    it — no Australian operations were found, and it is not in the CDR register. Ontario's Green
+    Button regulation binds Ontario rate-regulated distributors, not out-of-province DERMS vendors;
+    Virtual Peaker's Canadian footprint that was found is Newfoundland Power, outside Ontario. The
+    United States has no federal consumer energy data mandate at all — Green Button (NAESB REQ.21 /
+    ESPI) is voluntary — and Virtual Peaker has not adopted it voluntarily either. Nothing on
+    virtual-peaker.com, in its llms.txt page index, in the /apis/ page, in the device-partner or
+    utility-partner pages, or in either harvested OpenAPI mentions Green Button, ESPI, Download My
+    Data, Connect My Data, Consumer Data Right, or Consumer Data Standards. This is a genuine
+    'none' — not an unverified claim, and not a designated-but-unbuilt obligation.
+  mandateEvidenceProbed:
+  - url: https://virtual-peaker.com/apis/
+    status: 200
+    note: Marketing API page. Mentions OpenADR as an open standard its APIs were "developed with an
+      understanding of"; no Green Button, no ESPI, no CDR, no conformance claim.
+  - url: https://virtual-peaker.com/llms.txt
+    status: 200
+    note: Yoast-generated site index of all pages, posts, resources, and news. No mandate,
+      regulator, or consumer-data-right page anywhere in the index.
+  - url: https://virtual-peaker.com/page-sitemap.xml
+    status: 200
+    note: 40 pages enumerated. No compliance, regulatory, Green Button, or data-sharing page.
+  - url: https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html
+    status: 200
+    note: Full Gravity Connect Device Partner spec. Zero references to Green Button, ESPI, CDR, or
+      any consumer data right. Explicitly positions itself against OpenADR and IEEE 2030.5.
+
+  dataStandard: >-
+    Gravity Connect (Virtual Peaker's own OpenAPI 3.0.0 specification, v2.0.6) — self-described as
+    "an open API specification developed by Virtual Peaker", openly published, "designed to be
+    vendor-agnostic so your devices can integrate with any VPP or DERMS platform that implements the
+    specification". No Green Button / ESPI. No CDR Consumer Data Standards. No OCPP or OCPI. No
+    IEEE 2030.5. No IEC CIM. OpenADR and IEEE 2030.5 are named only as the incumbents Gravity
+    Connect intends to displace — the device-partners page states Gravity Connect "can replace
+    unwieldy current practices like OpenADR and IEEE 2030.5", and the company blog post "API
+    Showdown: Gravity Connect v. OpenADR" (2022-10-07) argues OpenADR "uses outdated technology".
+    Virtual Peaker states it has "several OpenADR integrations" but publishes no OpenADR
+    conformance certification and no VEN/VTN profile. Treat Gravity Connect as a proprietary
+    vendor specification with open-publication ambitions, not a ratified industry standard.
+  standardCaveat: >-
+    Gravity Connect carries a registered trademark (Gravity Connect API®) and is governed solely by
+    Virtual Peaker. It has no standards-body home, no public change-control process, no
+    conformance test suite, and no certification programme that was found. The published changelog
+    (1.0.1 through 2.0.6) is the only governance artifact.
+
+  consumerDataApi: false
+  consumerDataNote: >-
+    There is no API by which a third party can obtain an individual utility customer's metered usage
+    or billing data. Virtual Peaker never touches the meter — it moves device telemetry, not
+    utility interval data. The closest surface is the Gravity Connect Device Partner
+    GET /device/{DEVICE_UID}/energy "Energy Interval Endpoint", which returns device-level energy
+    intervals from the OEM's cloud, and the OAuth Device Discovery flow (authorization code, scope
+    user_read) in which a homeowner consents to the VPP reading their device account. That is
+    device-account consent inside a utility program enrollment, not a consumer data right, not
+    meter data, and not available to any third party outside a contracted program.
+
+  marketDataOpen: false
+  marketDataNote: >-
+    Virtual Peaker publishes no open grid, market, or system data of any kind — no load data, no
+    event data, no capacity data, no emissions data, no anonymous datasets, no open-data portal. It
+    is a consumer of such data on behalf of its utility customers (the /apis/ page describes
+    ingesting demand, retail and wholesale rate, and weather data), never a publisher of it. The
+    consumer-vs-market split for this organization is therefore closed on both sides — what IS open
+    is the interface contract, not any data.
+
+  accessGate: partner-only
+  accessGateDetail: >-
+    Reading the contract is free and anonymous; getting credentials is not. Both Gravity Connect
+    Redoc references return HTTP 200 with no login, no cookie, and no rate limit. To actually
+    integrate, the published instruction is: "If you're an OEM, utility, DERMS provider, or
+    technology provider interested in learning more about integrating with Gravity Connect, our
+    team is here to help. To get started and discuss your use case, please reach out to our Gravity
+    Connect support team at gravity-connect@virtual-peaker.com." Credentials are then issued per
+    utility program — PROGRAM_PUBLISH_KEY, PROGRAM_PUBLISH_SECRET, and a per-device
+    DEVICE_PUBLISH_SECRET are "provided when a program is set up" and "provided when each device is
+    enrolled". There is no signup form, no API key self-service, no sandbox, no free tier, and no
+    pricing page. The marketing site's only call to action for API access is a demo request form or
+    info@virtual-peaker.com. Everything else is a login: utility.virtualpeaker.io (US tenant),
+    utility.ca.virtualpeaker.io (Canadian tenant), and gravity.virtualpeaker.io (the "Gravity
+    Portal" device-partner console).
+  discoverabilityFinding: >-
+    The most notable defect. The two public API references are linked from nowhere on
+    virtual-peaker.com — not from /apis/, not from the device-partners page, not from the Gravity
+    Connect launch news post, not from the "API Showdown: Gravity Connect v. OpenADR" blog post, not
+    from llms.txt, and not from any sitemap. They were found only by reading the publicly served
+    JavaScript bundle of the login-gated Gravity Portal SPA
+    (https://gravity.virtualpeaker.io/js/app.ff67f47f.js), which hardcodes both documentation URLs.
+    A company that says it wants its specification adopted industry-wide has made that
+    specification unreachable by anyone who does not already have a partner login.
+
+  authModel:
+    summary: Two different schemes, one per direction of the Gravity Connect integration.
+    platformToPartner:
+      scheme: OAuth 2.0 client credentials
+      scope: basic_partner_read_write ("conducts all actions on the partners behalf")
+      tokenUrl: https://example.com/oauth/token (placeholder — the OEM hosts its own token endpoint)
+      note: Required even when the homeowner enrollment flow is not OAuth-based.
+    homeownerEnrollment:
+      scheme: OAuth 2.0 authorization code
+      scope: user_read ("read details about new user")
+      note: Used only for the OAuth Device Discovery enrollment flow, which the spec marks as
+        "Preferred" over the pairing-code flows.
+    partnerToPlatform:
+      scheme: HMAC-SHA256 body signature
+      header: 'Authorization: Publish <hex-hmac>'
+      secrets: PROGRAM_PUBLISH_SECRET (program-level payloads) and DEVICE_PUBLISH_SECRET
+        (device-level payloads)
+      note: Not OAuth. The spec ships a Node.js crypto.createHmac example.
+    openidConfiguration:
+      url: https://api.virtualpeaker.io/.well-known/openid-configuration
+      status: 404
+      note: No anonymously served OpenID Connect discovery document on any Virtual Peaker host.
+    errorHandling: Spec instructs exponential-backoff retry on 429, 502, 503, and 504; all other
+      errors are to be discarded.
+
+apiFamily:
+  documentedAndHarvested:
+  - name: Gravity Connect API (Device Partner)
+    version: 2.0.6
+    openapi: 3.0.0
+    paths: 14
+    operations: 18
+    server: https://example.com (documented placeholder — implemented by the OEM, not Virtual Peaker)
+    segmentation:
+    - Devices (read device, read/write a signal or setting, subscribe)
+    - Commands (send, read status, cancel)
+    - Device Partner Driven Enrollment
+    - OAuth Device Discovery (Preferred) — GET /devices, GET /user
+    - Pairing Code Device Discovery — End User App
+    - Pairing Code Device Discovery — Utility Commissioned Installation — POST /houses
+    - Group Management (create/read/update/delete group, add devices, per-device command opt-out)
+    - Energy Interval Endpoint — GET /device/{DEVICE_UID}/energy
+    deviceTypes: Thermostat (TSTAT), EVSE, water heater / storage HVAC, per the changelog and
+      device-type specifications sections.
+  - name: Gravity Connect API (Virtual Peaker)
+    version: 2.0.6
+    openapi: 3.0.0
+    paths: 5
+    operations: 5
+    server: https://partner.virtualpeaker.io/v1
+    segmentation:
+    - Publishing — POST /publish/{PROGRAM_PUBLISH_KEY}/update (device signals and settings)
+    - Publishing — POST /publish/{PROGRAM_PUBLISH_KEY}/command (command status)
+    - Publishing — POST /publish/{PROGRAM_PUBLISH_KEY}/command/device (device command status)
+    - Publishing — POST /publish/{PROGRAM_PUBLISH_KEY}/device (device details)
+    - Publishing — POST /publish/{PROGRAM_PUBLISH_KEY}/enrollment (enrollment status)
+  namedButUndocumented:
+  - name: Shift API
+    evidence: >-
+      virtual-peaker.com/apis/ sells a "Shift API" — "See how our Shift API can bring best-in-class
+      grid-edge DERMS capabilities to your existing applications and workflows" — and carries a
+      named customer testimonial about pulling custom reporting through it. The /apis/ page groups
+      the capability into data ingestion (demand, retail and wholesale rate, weather), operations
+      software integration (CIS/CRM enrollment, event scheduling, homeowner messaging, incentive
+      processing), and analytics/reporting (event-level and load-level performance, opt-out rates,
+      enrolled capacity for regulated reporting).
+    status: >-
+      DELIBERATELY NOT LISTED in apis.yml. No public documentation, no API reference, no base URL,
+      no spec, no auth documentation exists for it anywhere that was probed. The one-pager brochure
+      at /resources/brochure-shift-api/ is a lead-capture form. Listing it would require inventing
+      a host or endpoints.
+    relatedLiveHost:
+      url: https://api.virtualpeaker.io/
+      status: 404
+      body: '{"status":404,"msg":"not found"}'
+      note: A live, JSON-serving, HSTS-enabled API host that is almost certainly the platform API,
+        but nothing about it is documented publicly and no path enumeration produced a described
+        surface. Recorded as an observation only; not asserted as the Shift API base URL.
+
+probes:
+  marketingDomain:
+  - {url: 'https://virtual-peaker.com/', status: 200}
+  - {url: 'https://www.virtual-peaker.com/', status: 200, note: redirects to apex}
+  - {url: 'https://virtual-peaker.com/apis', status: 200, note: marketing API page}
+  - {url: 'https://virtual-peaker.com/apis.md', status: 200, note: markdown rendition of the same page}
+  - {url: 'https://virtual-peaker.com/platform', status: 200}
+  - {url: 'https://virtual-peaker.com/llms.txt', status: 200}
+  - {url: 'https://virtual-peaker.com/robots.txt', status: 200}
+  - {url: 'https://virtual-peaker.com/sitemap.xml', status: 200}
+  - {url: 'https://virtual-peaker.com/developers', status: 404}
+  - {url: 'https://virtual-peaker.com/developer', status: 404}
+  - {url: 'https://virtual-peaker.com/api', status: 404}
+  - {url: 'https://virtual-peaker.com/docs', status: 404}
+  - {url: 'https://virtual-peaker.com/documentation', status: 404}
+  - {url: 'https://virtual-peaker.com/data', status: 404}
+  - {url: 'https://virtual-peaker.com/integrations', status: 404}
+  - {url: 'https://virtual-peaker.com/openapi.json', status: 404}
+  - {url: 'https://virtual-peaker.com/swagger.json', status: 404}
+  - {url: 'https://virtual-peaker.com/api-docs', status: 404}
+  - {url: 'https://virtual-peaker.com/.well-known/openid-configuration', status: 404}
+  - {url: 'https://virtual-peaker.com/.well-known/security.txt', status: 404}
+  - {url: 'https://virtual-peaker.com/llms-full.txt', status: 404}
+  marketingSubdomains:
+  - {url: 'https://developer.virtual-peaker.com/', status: 000, note: DNS does not resolve}
+  - {url: 'https://developers.virtual-peaker.com/', status: 000, note: DNS does not resolve}
+  - {url: 'https://docs.virtual-peaker.com/', status: 000, note: DNS does not resolve}
+  - {url: 'https://api.virtual-peaker.com/', status: 000, note: DNS does not resolve}
+  - {url: 'https://data.virtual-peaker.com/', status: 000, note: DNS does not resolve}
+  - {url: 'https://app.virtual-peaker.com/', status: 000, note: DNS does not resolve}
+  - {url: 'https://support.virtual-peaker.com/', status: 200, note: redirects to /knowledge —
+      HubSpot knowledge base, categories are Getting Started and Device Management, no API content}
+  productDomain:
+  - {url: 'https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html', status: 200,
+     bytes: 646081, note: Redoc v2.5.0 standalone, embeds full OpenAPI 3.0.0 in __redoc_state}
+  - {url: 'https://assets.virtualpeaker.io/gravity-connect/vp-api.html', status: 200, bytes: 168363,
+     note: Redoc v2.5.0 standalone, embeds full OpenAPI 3.0.0 in __redoc_state}
+  - {url: 'https://assets.virtualpeaker.io/gravity-connect/device-partner-api.json', status: 403}
+  - {url: 'https://assets.virtualpeaker.io/gravity-connect/device-partner-api.yaml', status: 403}
+  - {url: 'https://assets.virtualpeaker.io/gravity-connect/vp-api.json', status: 403}
+  - {url: 'https://assets.virtualpeaker.io/gravity-connect/vp-api.yaml', status: 403}
+  - {url: 'https://assets.virtualpeaker.io/gravity-connect/openapi.json', status: 403}
+  - {url: 'https://assets.virtualpeaker.io/gravity-connect/', status: 403, note: S3 listing denied}
+  - {url: 'https://partner.virtualpeaker.io/v1', status: 403, note: 'AWS API Gateway,
+      MissingAuthenticationTokenException — confirms the documented base URL is live'}
+  - {url: 'https://gravity.virtualpeaker.io/', status: 200, note: 'Gravity Portal — Vue SPA behind
+      login; its public JS bundle is where both documentation URLs were found'}
+  - {url: 'https://utility.virtualpeaker.io/', status: 200, note: US utility tenant login}
+  - {url: 'https://utility.ca.virtualpeaker.io/', status: 200, note: Canadian utility tenant login}
+  - {url: 'https://api.virtualpeaker.io/', status: 404, note: live JSON API host, undocumented}
+  - {url: 'https://api.virtualpeaker.io/v1', status: 404}
+  - {url: 'https://api.virtualpeaker.io/docs', status: 404}
+  - {url: 'https://api.virtualpeaker.io/openapi.json', status: 404}
+  - {url: 'https://api.virtualpeaker.io/swagger.json', status: 404}
+  - {url: 'https://api.virtualpeaker.io/graphql', status: 404}
+  - {url: 'https://api.virtualpeaker.io/.well-known/openid-configuration', status: 404}
+  - {url: 'https://api.virtualpeaker.io/.well-known/security.txt', status: 404}
+  - {url: 'https://api.ca.virtualpeaker.io/', status: 404, note: Canadian API host, live, undocumented}
+  - {url: 'https://docs.virtualpeaker.io/', status: 000, note: DNS does not resolve}
+  - {url: 'https://developer.virtualpeaker.io/', status: 000, note: DNS does not resolve}
+  - {url: 'https://developers.virtualpeaker.io/', status: 000, note: DNS does not resolve}
+  sourceControl:
+  - url: https://github.com/virtual-peaker
+    status: 200
+    note: >-
+      Organization "Virtual Peaker" — "Machine Intelligence for the Smart Grid." 7 public repos, all
+      of them forks of unrelated open-source JavaScript libraries (sequelize, v-calendar,
+      angular-moment-picker, vue-style-loader, redis-clustr, passwordless-mysql,
+      vue2-web-component-wrapper). No SDK, no API spec, no Gravity Connect repository, no sample
+      code. Despite calling Gravity Connect "open-source documentation", none of it is on GitHub.
+
+harvest:
+  fetchDate: '2026-07-27'
+  specsSaved: 2
+  method: >-
+    Both Redoc HTML references were downloaded anonymously with curl. Each embeds its complete
+    OpenAPI document as a JSON object assigned to `var __redoc_state` in an inline script; the
+    `spec.data` object was extracted verbatim and serialized to YAML with no edits, additions, or
+    omissions. Both were confirmed to round-trip byte-equivalent in structure and to reparse as
+    valid YAML.
+  artifacts:
+  - path: openapi/virtual-peaker-gravity-connect-device-partner-api-openapi.yml
+    sourceURL: https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html
+    httpStatus: 200
+    fetchDate: '2026-07-27'
+    title: Gravity Connect API (Device Partner)
+    version: 2.0.6
+    openapi: 3.0.0
+    paths: 14
+    operations: 18
+    parsed: true
+  - path: openapi/virtual-peaker-gravity-connect-vpp-api-openapi.yml
+    sourceURL: https://assets.virtualpeaker.io/gravity-connect/vp-api.html
+    httpStatus: 200
+    fetchDate: '2026-07-27'
+    title: Gravity Connect API (Virtual Peaker)
+    version: 2.0.6
+    openapi: 3.0.0
+    paths: 5
+    operations: 5
+    parsed: true
+  notHarvested:
+  - what: Gravity Connect Postman Collection
+    why: >-
+      The Device Partner changelog entry for 1.5.2 references a Postman Collection ("Fixed using
+      incorrect baseUrl to correct vpBaseUrl in VP Endpoints of Postman Collection"), so one exists,
+      but every guessed path under assets.virtualpeaker.io/gravity-connect/ returned HTTP 403 and
+      the bucket denies listing. Not fabricated.
+  - what: Shift API contract
+    why: No public documentation of any kind exists. See apiFamily.namedButUndocumented.
+
+sources:
+- url: https://virtual-peaker.com/
+  type: Website
+  note: Company homepage. Three suites — Shift (grid-edge DERMS), Relay (customer engagement),
+    Envision (forecasting). HQ 825 E. Market Street, Suite 203, Louisville, Kentucky.
+- url: https://virtual-peaker.com/apis/
+  type: Documentation
+  note: Marketing API page. Names the Shift API. States "Our APIs were developed with an
+    understanding of the importance of open standards like OpenADR" — an awareness statement, not a
+    conformance claim. Contact for API access is info@virtual-peaker.com.
+- url: https://virtual-peaker.com/partners/device-partners/
+  type: Documentation
+  note: '"our Gravity Connect API allows us to onboard new partners at a rapid pace"; the Gravity
+    Connect white paper blurb claims it "can replace unwieldy current practices like OpenADR and
+    IEEE 2030.5". Over thirty-five native device integrations claimed.'
+- url: https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html
+  type: APIReference
+  note: Primary harvested artifact. Anonymous 200. Unlinked from the marketing site.
+- url: https://assets.virtualpeaker.io/gravity-connect/vp-api.html
+  type: APIReference
+  note: Second harvested artifact. Anonymous 200. Unlinked from the marketing site.
+- url: https://virtual-peaker.com/blog/gravity-connect-v-openadr/
+  type: Blog
+  note: '"API Showdown: Gravity Connect v. OpenADR" (2022-10-07). Confirms Virtual Peaker has built
+    "several OpenADR integrations" and argues OpenADR "uses outdated technology". Gravity Connect
+    described as JSON + OAuth 2.0 + webhooks.'
+- url: https://github.com/virtual-peaker
+  type: GitHubOrganization
+  note: 7 public repos, all forks of unrelated OSS libraries. No specs, no SDKs.
+- url: https://support.virtual-peaker.com/knowledge
+  type: SupportCenter
+  note: HubSpot knowledge base, publicly readable. Getting Started and Device Management only. No
+    API, key, authentication, or developer content.
+
+findings:
+  summary: >-
+    Virtual Peaker is a clean example of the energy sector's real split — and it falls on neither
+    side of the mandate story. No consumer data right reaches it, so 'mandate' is genuinely
+    not-applicable rather than claimed-and-unverified. It publishes no open market data. What it
+    does publish is a proprietary-but-openly-documented integration specification, Gravity Connect
+    v2.0.6, in two OpenAPI 3.0.0 halves, explicitly pitched as a modern replacement for OpenADR and
+    IEEE 2030.5. Both halves are readable anonymously and were harvested. The gap between ambition
+    and practice is the story: a company that says "we encourage all DERMS and VPP platforms to use
+    this standard" links to that standard from nowhere on its own website, publishes none of it on
+    the GitHub organization it maintains, and issues credentials only inside a contracted utility
+    program.
+  strengths:
+  - Two complete, well-written OpenAPI 3.0.0 documents with a maintained changelog spanning 1.0.1
+    to 2.0.6.
+  - Honest two-sided modelling — the OEM side ships a placeholder server URL because the OEM hosts
+    it, which is correct rather than misleading.
+  - Documented auth on both directions, with a worked HMAC example and explicit retry guidance.
+  - Real device-type specifications (TSTAT, EVSE, storage HVAC) rather than a generic device blob.
+  gaps:
+  - No machine-readable spec is served — the OpenAPI exists only embedded inside Redoc HTML; every
+    .json and .yaml sibling returns 403.
+  - The API references are linked from nowhere public; they are reachable only by reading a
+    login-gated SPA's JavaScript bundle.
+  - Nothing on GitHub despite the "open-source documentation" framing.
+  - No sandbox, no self-service signup, no pricing, no status page, no security.txt.
+  - The commercial Shift API is sold by name with no documentation at all.

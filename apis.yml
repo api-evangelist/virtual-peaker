@@ -1,0 +1,138 @@
+aid: virtual-peaker
+url: https://raw.githubusercontent.com/api-evangelist/virtual-peaker/refs/heads/main/apis.yml
+name: Virtual Peaker
+kind: company
+description: >-
+  Virtual Peaker is a Louisville, Kentucky software company selling grid-edge DERMS and
+  virtual power plant software to United States and Canadian electric utilities — investor-owned
+  utilities, municipal utilities, and rural electric cooperatives. Its platform is sold as three
+  suites: Shift (grid-edge DERMS device control and demand response event dispatch), Relay
+  (customer engagement, enrollment, and incentive processing), and Envision (demand forecasting).
+  Virtual Peaker sits in the private DER-orchestration layer of the energy value chain, between
+  device OEMs behind the meter and the utility back office — it is a vendor, not a utility, not a
+  retailer, and not a data holder, so no consumer energy data right attaches to it. There is no
+  Green Button / ESPI implementation here, no Consumer Data Right obligation, and no open market or
+  grid data of any kind. What it does publish is its own API specification: Gravity Connect, an
+  OpenAPI 3.0.0 contract (v2.0.6) that Virtual Peaker authored and openly published as a
+  vendor-agnostic alternative to OpenADR and IEEE 2030.5 for onboarding and controlling DER devices.
+  Gravity Connect is two-sided — the device OEM implements one half, the VPP platform implements the
+  other — and both halves are readable anonymously as full Redoc API references. The honest posture:
+  a real, downloadable, standards-ambitious API contract that is effectively undiscoverable (it is
+  linked from nowhere on the marketing site) and whose credentials are partner-only, issued per
+  utility program by emailing the Gravity Connect team. The commercial Shift API is named and sold
+  on the marketing site but has no public documentation at all.
+accessModel:
+  pricing: paid
+  onboarding: partner-only
+  trial: false
+  try_now: false
+  public: false
+  label: Paid · Partner-only onboarding
+  confidence: high
+  source:
+  - documentation
+  - authentication
+  generated: '2026-07-27'
+  method: manual
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/groq.png
+tags:
+- Energy
+- United States
+- Utilities
+- Electricity
+- Grid
+- Demand Response
+- DER
+- DERMS
+- Virtual Power Plant
+- EV Charging
+- Smart Thermostats
+- Energy Storage
+created: '2026-07-27'
+modified: '2026-07-27'
+specificationVersion: '0.19'
+apis:
+- aid: virtual-peaker:gravity-connect-device-partner-api
+  name: Gravity Connect API (Device Partner)
+  description: >-
+    The Device Partner half of Virtual Peaker's Gravity Connect specification — the endpoints a
+    device OEM must implement so a VPP or DERMS platform can discover, enroll, read, group, and
+    command its behind-the-meter DER devices. Version 2.0.6, OpenAPI 3.0.0, 14 paths / 18
+    operations across Devices, Commands, Device Partner Driven Enrollment, OAuth Device Discovery,
+    Pairing Code Device Discovery (end-user app and utility-commissioned installation), Group
+    Management, and an Energy Interval endpoint. The published `servers` entry is the placeholder
+    https://example.com because the OEM, not Virtual Peaker, hosts this surface. Secured with
+    OAuth 2.0 — client credentials (scope basic_partner_read_write) for platform-to-partner calls,
+    and authorization code (scope user_read) for homeowner-consented device discovery.
+  humanURL: https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html
+  tags:
+  - DER
+  - Demand Response
+  - Device Control
+  - OEM
+  - OAuth
+  properties:
+  - type: OpenAPI
+    url: openapi/virtual-peaker-gravity-connect-device-partner-api-openapi.yml
+  - type: APIReference
+    url: https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html
+  - type: Documentation
+    url: https://virtual-peaker.com/partners/device-partners/
+  - type: Blog
+    url: https://virtual-peaker.com/blog/gravity-connect-api-oem-derms-integrations/
+- aid: virtual-peaker:gravity-connect-vpp-api
+  name: Gravity Connect API (Virtual Peaker)
+  description: >-
+    The VPP half of the Gravity Connect specification — the publishing endpoints Virtual Peaker
+    hosts so an integrated device partner can stream device signals, settings, command status, and
+    enrollment events back into the platform. Version 2.0.6, OpenAPI 3.0.0, 5 paths / 5 operations,
+    all under the Publishing tag and all keyed on a per-program PROGRAM_PUBLISH_KEY. Base URL
+    https://partner.virtualpeaker.io/v1, confirmed live (AWS API Gateway, anonymous request returns
+    HTTP 403 MissingAuthenticationTokenException). Authentication is not OAuth on this side: requests
+    are signed with an HMAC-SHA256 of the request body using a PROGRAM_PUBLISH_SECRET or
+    DEVICE_PUBLISH_SECRET and sent as `Authorization: Publish <hmac>`.
+  humanURL: https://assets.virtualpeaker.io/gravity-connect/vp-api.html
+  baseURL: https://partner.virtualpeaker.io/v1
+  tags:
+  - DER
+  - Demand Response
+  - Publishing
+  - Webhooks
+  - HMAC
+  properties:
+  - type: OpenAPI
+    url: openapi/virtual-peaker-gravity-connect-vpp-api-openapi.yml
+  - type: APIReference
+    url: https://assets.virtualpeaker.io/gravity-connect/vp-api.html
+  - type: Documentation
+    url: https://virtual-peaker.com/apis/
+  - type: Blog
+    url: https://virtual-peaker.com/blog/gravity-connect-v-openadr/
+common:
+- type: Website
+  url: https://virtual-peaker.com/
+- type: Documentation
+  url: https://virtual-peaker.com/apis/
+- type: APIReference
+  url: https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html
+- type: Blog
+  url: https://virtual-peaker.com/blog/
+- type: BlogRSS
+  url: https://virtual-peaker.com/feed/
+- type: SupportCenter
+  url: https://support.virtual-peaker.com/knowledge
+- type: GitHubOrganization
+  url: https://github.com/virtual-peaker
+- type: LinkedIn
+  url: https://www.linkedin.com/company/virtual-peaker/
+- type: PrivacyPolicy
+  url: https://virtual-peaker.com/privacy-policy/
+- type: TermsOfService
+  url: https://virtual-peaker.com/terms-of-use/
+- type: ContactForm
+  url: https://virtual-peaker.com/company/contact/
+- type: llmsTxt
+  url: https://virtual-peaker.com/llms.txt
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
