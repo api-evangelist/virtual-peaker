@@ -1,0 +1,26 @@
+generated: '2026-07-27'
+method: generated
+source: >-
+  Grounded in the two harvested Gravity Connect OpenAPI documents (every operationId below is
+  verbatim from openapi/) plus conventions/, errors/ and sandbox/ in this repo. Virtual Peaker
+  publishes no AGENTS.md and no skill files of its own.
+skills:
+- file: virtual-peaker-oauth-device-enrollment.md
+  name: Enroll a DER device via Gravity Connect OAuth Device Discovery
+  api: openapi/virtual-peaker-gravity-connect-device-partner-api-openapi.yml
+  operations: [readCurrentUser, readCurrentUserDevices, modifySubscription, publishDeviceEnrollment]
+- file: virtual-peaker-dispatch-demand-response-event.md
+  name: Dispatch and settle a demand response event over Gravity Connect
+  api: openapi/virtual-peaker-gravity-connect-device-partner-api-openapi.yml
+  operations: [createGroup, readGroup, updateGroup, manageGroupDevices, sendCommand, readCommandState,
+    cancelCommand, commandOptOut, publishCommand, publishDeviceCommand, deleteGroup]
+- file: virtual-peaker-publish-device-telemetry.md
+  name: Publish device telemetry to Virtual Peaker with HMAC signing
+  api: openapi/virtual-peaker-gravity-connect-vpp-api-openapi.yml
+  operations: [publishSignalSetting, readSignalSetting, updateSignalSetting, readDeviceDetails,
+    readDeviceEnergyInterval]
+- file: virtual-peaker-pairing-code-enrollment.md
+  name: Enroll utility-commissioned devices with Gravity Connect pairing codes
+  api: openapi/virtual-peaker-gravity-connect-device-partner-api-openapi.yml
+  operations: [publishHouseList, readDeviceUser, publishDeviceEnrollment,
+    publishDevicePartnerDrivenEnrollment, modifySubscription]

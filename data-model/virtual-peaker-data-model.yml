@@ -1,0 +1,151 @@
+generated: '2026-07-27'
+method: derived
+source: >-
+  openapi/virtual-peaker-gravity-connect-device-partner-api-openapi.yml (components.schemas +
+  path parameters) and openapi/virtual-peaker-gravity-connect-vpp-api-openapi.yml, enriched from
+  the Glossary and Device Enrollment sections of the published Device Partner guide.
+summary: >-
+  Gravity Connect models a small, flat domain: a Program (a utility's demand-response arrangement,
+  identified by PROGRAM_PUBLISH_KEY) contains Users (homeowners) who own Devices; Devices carry
+  Signals (telemetry), Settings (configuration) and optional EnergyIntervals, may be collected into
+  Groups, and receive Commands whose CommandState is reported back. Every identifier is minted by
+  the Device Partner (OEM) except PROGRAM_PUBLISH_KEY and the command reference id, which the VPP
+  mints.
+entities:
+- name: Program
+  schema: null
+  identifier: PROGRAM_PUBLISH_KEY
+  id_owner: virtual-peaker
+  description: >-
+    A utility's DR/DER arrangement. Not a schema — it exists only as a path parameter on every
+    publishing endpoint and as a pairing-code prefix. "1 program = 1 utility" (clarified in spec
+    1.1.0); the key is unique per program + Device Partner combination.
+- name: UserDetails
+  schema: '#/components/schemas/UserDetails'
+  identifier: userId
+  id_owner: device-partner
+  fields: [userId, accountNumber, name, email, deviceUids, serviceAddress]
+  description: >-
+    The homeowner as known to the Device Partner. accountNumber optionally carries the utility
+    customer identifier, which is how a device enrollment is reconciled to a utility account.
+- name: DeviceDetails
+  schema: '#/components/schemas/DeviceDetails'
+  identifier: uid (DEVICE_UID)
+  id_owner: device-partner
+  fields: [uid, kind, name, type, serialNumber, isSubscribed]
+  description: >-
+    A behind-the-meter DER. `kind` is the DeviceKindEnum class, `type` is the model name/number,
+    and `isSubscribed` is the publishing flag Virtual Peaker flips via modifySubscription.
+- name: DeviceKindEnum
+  schema: '#/components/schemas/DeviceKindEnum'
+  kind: enum
+  description: >-
+    The device class that determines the whole signal/setting/command vocabulary. Device types
+    documented in the guide include thermostat (TSTAT), hot water heater (HWH), battery, EVSE
+    (added 1.5.0) and storage HVAC (added 1.4.1).
+- name: GroupDetails
+  schema: '#/components/schemas/GroupDetails'
+  identifier: uid (GROUP_ID)
+  id_owner: device-partner
+  fields: [uid, deviceUids, name]
+  description: A collection of devices addressable by a single group command.
+- name: SignalSetting
+  schema: '#/components/schemas/SignalSetting'
+  identifier: key (SIGNAL_KEY / SETTING_KEY) + time
+  kind: time-series
+  fields: [key, value, time]
+  description: >-
+    The unit of telemetry and configuration. `value` is oneOf string|number; `time` is RFC 3339.
+    The legal key set is device-type-specific.
+- name: EnergyInterval
+  schema: '#/components/schemas/EnergyInterval'
+  identifier: time + duration
+  kind: time-series
+  fields: [value, time, duration]
+  description: >-
+    Watt-hours over an interval, with `time` the START of the interval and `duration` in seconds.
+    The alternative to publishing 5-minute power data.
+- name: CommandState
+  schema: '#/components/schemas/CommandState'
+  identifier: refId (COMMAND_REFERENCE_ID)
+  id_owner: virtual-peaker
+  fields: [state, description, time, refId]
+  description: >-
+    Command lifecycle status — PENDING (scheduled, not started), IN_PROGRESS, and the terminal
+    states including OPT_OUT reported by a device declining an event.
+- name: ServiceAddress
+  schema: '#/components/schemas/ServiceAddress'
+  identifier: null
+  kind: value-object
+  fields: [streetAddress, streetAddress2, city, state, postalCode, country]
+  description: >-
+    Premise address. `country` is required and ISO 3166-1 alpha-2 (spec 1.3.3); US `state` is the
+    2-letter abbreviation. Used for utility-commissioned installation (publishHouseList).
+- name: Details
+  schema: '#/components/schemas/Details'
+  kind: envelope
+  fields: [message]
+  description: >-
+    The generic human-readable response body, whose own description concedes "there's no standard
+    for what is included or how" — the closest thing Gravity Connect has to an error/ack envelope.
+relationships:
+- from: Program
+  to: UserDetails
+  type: has_many
+  via: enrollment (PROGRAM_PUBLISH_KEY path parameter on publishing endpoints)
+- from: Program
+  to: DeviceDetails
+  type: has_many
+  via: publishDeviceEnrollment / publishDevicePartnerDrivenEnrollment
+- from: UserDetails
+  to: DeviceDetails
+  type: has_many
+  via: deviceUids
+- from: DeviceDetails
+  to: UserDetails
+  type: belongs_to
+  via: GET /device/{DEVICE_UID}/user (readDeviceUser)
+- from: UserDetails
+  to: ServiceAddress
+  type: has_one
+  via: serviceAddress ($ref)
+- from: DeviceDetails
+  to: DeviceKindEnum
+  type: has_one
+  via: kind ($ref)
+- from: GroupDetails
+  to: DeviceDetails
+  type: has_many
+  via: deviceUids
+- from: DeviceDetails
+  to: SignalSetting
+  type: has_many
+  via: /device/{DEVICE_UID}/{SIGNAL_OR_SETTING}/{DATA_KEY}
+- from: DeviceDetails
+  to: EnergyInterval
+  type: has_many
+  via: /device/{DEVICE_UID}/energy (readDeviceEnergyInterval)
+- from: CommandState
+  to: DeviceDetails
+  type: belongs_to
+  via: publishDeviceCommand payload (device uid + state)
+- from: CommandState
+  to: GroupDetails
+  type: belongs_to
+  via: group commands, opt-out reported through commandOptOut
+identifier_conventions:
+- id: DEVICE_UID
+  owner: device-partner
+  note: unique within the partner, not globally
+- id: GROUP_ID
+  owner: device-partner
+- id: COMMAND_REFERENCE_ID
+  owner: virtual-peaker
+  note: correlates sendCommand -> readCommandState / cancelCommand / publishCommand
+- id: PROGRAM_PUBLISH_KEY
+  owner: virtual-peaker
+  note: unique per program + device-partner pair
+- id: pairing code
+  owner: virtual-peaker
+  note: 2-char program prefix + 5 numerics + Luhn check digit (e.g. A1123455)
+render: null

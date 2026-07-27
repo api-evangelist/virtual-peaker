@@ -1,0 +1,979 @@
+{
+	"info": {
+		"_postman_id": "5089502b-54a4-42f5-b841-b53ba39c80b4",
+		"name": "Gravity Connect API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "VP Endpoints",
+			"item": [
+				{
+					"name": "Publish signal/setting value",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"hmac\", CryptoJS.HmacSHA256(request.data, pm.variables.get(\"DEVICE_PUBLISH_SECRET\")).toString(CryptoJS.digest));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Publish {{hmac}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"uid\": \"SOMEUID\",\n    \"kind\": \"HWH\",\n    \"signal\": [\n        {\n            \"key\": \"mode\",\n            \"value\": \"SHED\",\n            \"time\": \"2022-05-23T12:28:09.861Z\"\n        },\n        {\n            \"key\": \"status\",\n            \"value\": \"online\",\n            \"time\": \"2022-05-23T12:27:49.439Z\"\n        }\n    ],\n    \"setting\": []\n}"
+						},
+						"url": {
+							"raw": "{{vpBaseUrl}}/publish/{{PROGRAM_PUBLISH_KEY}}/update",
+							"host": [
+								"{{vpBaseUrl}}"
+							],
+							"path": [
+								"publish",
+								"{{PROGRAM_PUBLISH_KEY}}",
+								"update"
+							]
+						},
+						"description": "This endpoint publishes device data to Virtual Peaker. The signal and setting types vary by device type. Please reference the [Device Specific Definitions section](device-partner-api.html#section/Device-Specific-Definitions) to see the signals and settings for each device. Also, a required field is required overall for that device although not required every time data is reported for that device."
+					},
+					"response": []
+				},
+				{
+					"name": "Publish device enrollment status",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"hmac\", CryptoJS.HmacSHA256(request.data, pm.variables.get(\"PROGRAM_PUBLISH_SECRET\")).toString(CryptoJS.digest));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Publish {{hmac}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"state\": \"unenrolled\",\n    \"device\": {\n        \"uid\": \"SOMEUID\",\n        \"kind\": \"HWH\",\n        \"type\": \"Heater 9000\"\n    },\n    \"time\": \"2022-05-23T12:28:09.861Z\"\n}"
+						},
+						"url": {
+							"raw": "{{vpBaseUrl}}/publish/{{PROGRAM_PUBLISH_KEY}}/device",
+							"host": [
+								"{{vpBaseUrl}}"
+							],
+							"path": [
+								"publish",
+								"{{PROGRAM_PUBLISH_KEY}}",
+								"device"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Publish command status",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"hmac\", CryptoJS.HmacSHA256(request.data, pm.variables.get(\"PROGRAM_PUBLISH_SECRET\")).toString(CryptoJS.digest));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Publish {{hmac}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"state\": \"IN_PROGRESS\",\n    \"time\": \"2022-05-23T12:28:09.861Z\",\n    \"refId\": \"ff93b98a-6ad5-4f37-9865-60e6fc005763\"\n}"
+						},
+						"url": {
+							"raw": "{{vpBaseUrl}}/publish/{{PROGRAM_PUBLISH_KEY}}/command",
+							"host": [
+								"{{vpBaseUrl}}"
+							],
+							"path": [
+								"publish",
+								"{{PROGRAM_PUBLISH_KEY}}",
+								"command"
+							]
+						},
+						"description": "Used to report back the status of a command. For more details please reference the FAQs"
+					},
+					"response": []
+				},
+				{
+					"name": "Publish device command status",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"hmac\", CryptoJS.HmacSHA256(request.data, pm.variables.get(\"PROGRAM_PUBLISH_SECRET\")).toString(CryptoJS.digest));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Publish {{hmac}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refId\": \"ff93b98a-6ad5-4f37-9865-60e6fc005763\",\n    \"state\": \"FAILED\",\n    \"time\": \"2022-05-23T12:28:09.861Z\",\n    \"uid\": \"SOMEUID\"\n}"
+						},
+						"url": {
+							"raw": "{{vpBaseUrl}}/publish/{{PROGRAM_PUBLISH_KEY}}/command/device",
+							"host": [
+								"{{vpBaseUrl}}"
+							],
+							"path": [
+								"publish",
+								"{{PROGRAM_PUBLISH_KEY}}",
+								"command",
+								"device"
+							]
+						},
+						"description": "Only used if grouping is being used. For more details please reference the FAQs"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Device Partner Endpoints",
+			"item": [
+				{
+					"name": "Universally Used",
+					"item": [
+						{
+							"name": "Manage device publishing",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"state\": \"register\",\n  \"uid\": \"some-device-uid\",\n  \"secret\": \"some-device-secret\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/subscription",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"subscription"
+									]
+								},
+								"description": "This endpoint is used to enable or disable the publishing of device data (signals and settings) to Virtual Peaker."
+							},
+							"response": []
+						},
+						{
+							"name": "Send command",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"targeting\": \"device\",\n  \"uid\": \"SOMEUID\",\n  \"startTime\": \"2022-05-23T17:53:38.116Z\",\n  \"duration\": 1800,\n  \"kind\": \"HWH\",\n  \"command\": { \n      \"mode\": \"SHED\"\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/command",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"command"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Cancel command",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/command/:COMMAND_REFERENCE_ID",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"command",
+										":COMMAND_REFERENCE_ID"
+									],
+									"variable": [
+										{
+											"key": "COMMAND_REFERENCE_ID",
+											"value": "mollit",
+											"description": "(Required) The id of the command being cancelled"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Grouping",
+					"item": [
+						{
+							"name": "Manage group devices",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"deviceUids\": [\n    \"adipisicing ut\",\n    \"dolor Duis\"\n  ],\n  \"action\": \"remove\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/group/:GROUP_ID/devices",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"group",
+										":GROUP_ID",
+										"devices"
+									],
+									"variable": [
+										{
+											"key": "GROUP_ID",
+											"value": "mollit",
+											"description": "(Required) The id of the device being targeted"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete group",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/group/:GROUP_ID",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"group",
+										":GROUP_ID"
+									],
+									"variable": [
+										{
+											"key": "GROUP_ID",
+											"value": "mollit",
+											"description": "(Required) The id of the device being targeted"
+										}
+									]
+								},
+								"description": "Deletes a group and returns the list of devices that were within the group when deleted"
+							},
+							"response": []
+						},
+						{
+							"name": "Update group details",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"deviceUids\": [\n    \"sunt\",\n    \"tempor dolor non qui\"\n  ],\n  \"name\": \"eu quis tempor\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/group/:GROUP_ID",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"group",
+										":GROUP_ID"
+									],
+									"variable": [
+										{
+											"key": "GROUP_ID",
+											"value": "mollit",
+											"description": "(Required) The id of the device being targeted"
+										}
+									]
+								},
+								"description": "Update group details, if deviceUids is passed, it will overwrite the current list of devices."
+							},
+							"response": []
+						},
+						{
+							"name": "Read group details",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/group/:GROUP_ID",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"group",
+										":GROUP_ID"
+									],
+									"variable": [
+										{
+											"key": "GROUP_ID",
+											"value": "mollit",
+											"description": "(Required) The id of the device being targeted"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create group",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"deviceUids\": [\n    \"ad occaecat sint\",\n    \"aute ea elit labore\"\n  ],\n  \"name\": \"fugiat aliqua anim\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/group",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"group"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Command Opt-Out",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"deviceUids\": [\n    \"eu\",\n    \"ex tempor consequat aliqua ullamco\"\n  ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/command/:COMMAND_REFERENCE_ID/opt-out",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"command",
+										":COMMAND_REFERENCE_ID",
+										"opt-out"
+									],
+									"variable": [
+										{
+											"key": "COMMAND_REFERENCE_ID",
+											"value": "mollit",
+											"description": "(Required) The id of the command"
+										}
+									]
+								},
+								"description": "To communicate that particular devices within a group have opted out. For non-group command this is achieved via canceling the entire command."
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "OAuth Onboarding",
+					"item": [
+						{
+							"name": "Read current user's details",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/user",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read current user's devices",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/devices",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"devices"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "oauth2",
+						"oauth2": [
+							{
+								"key": "addTokenTo",
+								"value": "header",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Pairing Code Onboarding",
+					"item": [
+						{
+							"name": "Describe device's user",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/device/:DEVICE_UID/user",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"device",
+										":DEVICE_UID",
+										"user"
+									],
+									"variable": [
+										{
+											"key": "DEVICE_UID",
+											"value": "mollit",
+											"description": "(Required) The unique identifier for the target device within the partner's platform"
+										}
+									]
+								},
+								"description": "If a new device is added to Virtual Peaker via the Virtual Peaker's publish device enrollment endpoint. Virtual Peaker will use this endpoint to discover the user associated with the device."
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Utility Commissioned Devices",
+					"item": [
+						{
+							"name": "Publish houses for installation",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n  {\n    \"serviceAddress\": {\n      \"streetAddress\": \"123 Main St\",\n      \"city\": \"Flavortown\",\n      \"state\": \"KY\",\n      \"postalCode\": \"12345\",\n      \"country\": \"US\"\n    },\n    \"pairingCode\": \"A1-012-344\",\n    \"devices\": [\n      {\n        \"kind\": \"HWH\",\n        \"type\": \"v100\"\n      },\n      {\n        \"kind\": \"TSTAT\",\n        \"type\": \"Model 1234\"\n      }\n    ]\n  }\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/houses",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"houses"
+									]
+								},
+								"description": "In the use case where the device partner needs a list of houses to physically install devices, Virtual Peaker will publish the list of houses and corresponding pairing codes via this endpoint. Virtual Peaker will publish to this endpoint nightly with a list of all houses/devices to be installed (the same house will be published each night until it is installed). When the device is installed, the device partner will then use the [publish device enrollment status](./vp-api.html#operation/publishDeviceEnrollment)."
+							},
+							"response": []
+						},
+						{
+							"name": "Describe device's user",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/device/:DEVICE_UID/user",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"device",
+										":DEVICE_UID",
+										"user"
+									],
+									"variable": [
+										{
+											"key": "DEVICE_UID",
+											"value": "mollit",
+											"description": "(Required) The unique identifier for the target device within the partner's platform"
+										}
+									]
+								},
+								"description": "If a new device is added to Virtual Peaker via the Virtual Peaker's publish device enrollment endpoint. Virtual Peaker will use this endpoint to discover the user associated with the device."
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Debugging (As of now)",
+					"item": [
+						{
+							"name": "Read device details",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/device/:DEVICE_UID",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"device",
+										":DEVICE_UID"
+									],
+									"variable": [
+										{
+											"key": "DEVICE_UID",
+											"value": "mollit",
+											"description": "(Required) The unique identifier for the target device within the partner's platform"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update signal/setting",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"key\": \"veniam ipsum sed culpa\",\n  \"value\": \"ea amet dolor\",\n  \"time\": \"1990-05-19T06:25:16.693Z\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/device/:DEVICE_UID/:SIGNAL_OR_SETTING/:DATA_KEY",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"device",
+										":DEVICE_UID",
+										":SIGNAL_OR_SETTING",
+										":DATA_KEY"
+									],
+									"variable": [
+										{
+											"key": "DEVICE_UID",
+											"value": "mollit",
+											"description": "(Required) The unique identifier for the target device within the partner's platform"
+										},
+										{
+											"key": "SIGNAL_OR_SETTING",
+											"value": "setting",
+											"description": "(Required) Whether the data type is a signal or a setting"
+										},
+										{
+											"key": "DATA_KEY",
+											"value": "mollit",
+											"description": "(Required) The signal/setting type being read, varies based on device type, see documentation"
+										}
+									]
+								},
+								"description": "There may be cases where a particular signal or setting can be modified by Virtual Peaker. If this is supported, this endpoint is to be used."
+							},
+							"response": []
+						},
+						{
+							"name": "Read signal/setting",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/device/:DEVICE_UID/:SIGNAL_OR_SETTING/:DATA_KEY",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"device",
+										":DEVICE_UID",
+										":SIGNAL_OR_SETTING",
+										":DATA_KEY"
+									],
+									"variable": [
+										{
+											"key": "DEVICE_UID",
+											"value": "mollit",
+											"description": "(Required) The unique identifier for the target device within the partner's platform"
+										},
+										{
+											"key": "SIGNAL_OR_SETTING",
+											"value": "setting",
+											"description": "(Required) Whether the data type is a signal or a setting"
+										},
+										{
+											"key": "DATA_KEY",
+											"value": "mollit",
+											"description": "(Required) The signal/setting type being read, varies based on device type, see documentation"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read command state",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/command/:COMMAND_REFERENCE_ID",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"command",
+										":COMMAND_REFERENCE_ID"
+									],
+									"variable": [
+										{
+											"key": "COMMAND_REFERENCE_ID",
+											"value": "mollit",
+											"description": "(Required) The id of the command being read"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "oauth2",
+				"oauth2": [
+					{
+						"key": "grant_type",
+						"value": "client_credentials",
+						"type": "string"
+					},
+					{
+						"key": "tokenName",
+						"value": "Your Token",
+						"type": "string"
+					},
+					{
+						"key": "addTokenTo",
+						"value": "header",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "vpBaseUrl",
+			"value": "https://partner-dev.virtualpeaker.io/v1",
+			"type": "default"
+		},
+		{
+			"key": "PROGRAM_PUBLISH_KEY",
+			"value": "EXAMPLE-1234ABCD"
+		},
+		{
+			"key": "PROGRAM_PUBLISH_SECRET",
+			"value": "example_secret"
+		},
+		{
+			"key": "DEVICE_PUBLISH_SECRET",
+			"value": "example_device_secret"
+		},
+		{
+			"key": "hmac",
+			"value": "NOT_COMPUTED",
+			"type": "default"
+		},
+		{
+			"key": "baseUrl",
+			"value": "https://example.com"
+		}
+	]
+}

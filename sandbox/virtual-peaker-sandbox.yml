@@ -1,0 +1,81 @@
+generated: '2026-07-27'
+method: searched
+source: >-
+  https://assets.virtualpeaker.io/gravity-connect/Gravity%20Connect%20API.postman_collection.json
+  (published, anonymously downloadable) and the "Building an Integration" + "Integration Testing"
+  sections of https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html
+access: partner-only
+self_serve: false
+summary: >-
+  There is a real, separately-hosted development environment for Gravity Connect, but no self-serve
+  sandbox: credentials are issued by Virtual Peaker during partner onboarding. The public Postman
+  collection is the one artifact that names the dev host, and the published test values in it are
+  clearly labelled placeholders rather than working magic values.
+environments:
+- name: development
+  base_url: https://partner-dev.virtualpeaker.io/v1
+  status: live (HTTP 403 MissingAuthenticationToken to an anonymous request — AWS API Gateway)
+  source: postman collection variable `vpBaseUrl`
+  note: >-
+    Onboarding step 2 of "Building an Integration" states "the VPP provides the Device Partner with
+    access to a development environment"; the Postman collection ships pointed at this host by
+    default, so the dev stage is the shipped default rather than production.
+- name: production
+  base_url: https://partner.virtualpeaker.io/v1
+  status: live (HTTP 403 MissingAuthenticationToken to an anonymous request)
+  source: openapi/virtual-peaker-gravity-connect-vpp-api-openapi.yml servers[0]
+- name: device-partner
+  base_url: null
+  status: OEM-hosted
+  note: >-
+    The device-partner half is implemented and hosted by the OEM; the published spec ships
+    https://example.com as the servers[] placeholder, so there is no Virtual Peaker test host for
+    those 18 operations.
+credentials:
+  issuance: >-
+    Per utility program. PROGRAM_PUBLISH_KEY and PROGRAM_PUBLISH_SECRET are provided when a program
+    is set up; DEVICE_PUBLISH_SECRET is delivered per device when the VPP calls the Device
+    Partner's /subscription (modifySubscription) endpoint at enrollment. OAuth clientId /
+    clientSecret for the reverse direction are minted by the Device Partner.
+  request_channel: gravity-connect@virtual-peaker.com
+  test_vs_live_separation: separate host (partner-dev vs partner), same credential shape
+placeholder_values_published:
+  note: >-
+    These are the literal placeholder values shipped in the public Postman collection. They are
+    NOT working test credentials and authenticate nothing — recorded verbatim only to document the
+    credential shape.
+  variables:
+  - key: vpBaseUrl
+    value: https://partner-dev.virtualpeaker.io/v1
+  - key: PROGRAM_PUBLISH_KEY
+    value: EXAMPLE-1234ABCD
+  - key: PROGRAM_PUBLISH_SECRET
+    value: example_secret
+  - key: DEVICE_PUBLISH_SECRET
+    value: example_device_secret
+  - key: hmac
+    value: NOT_COMPUTED
+  - key: baseUrl
+    value: https://example.com
+tooling:
+  postman_collection:
+    url: https://assets.virtualpeaker.io/gravity-connect/Gravity%20Connect%20API.postman_collection.json
+    local: postman/virtual-peaker-gravity-connect-api.postman_collection.json
+    folders: [VP Endpoints, Device Partner Endpoints]
+    features:
+    - pre-request scripts that compute the HMAC signature into the {{hmac}} variable
+    - OAuth 2.0 client-credentials setup documented for the Device Partner folder
+    - a "Debugging (As of now)" folder for device/signal/command reads
+  hmac_helper: >-
+    Node.js snippet published inline in the VPP API guide (crypto.createHmac('sha256', secret))
+certification:
+  process: >-
+    No self-service test suite. Integrations are certified by joint QA — the docs enumerate the
+    exact workflows evaluated: enrollment/unenrollment, telemetry completeness (5-minute power data
+    or Energy Interval), group and individual event response, event cancellation, mode/status
+    alignment before-during-after the event window, and individual + group opt-out.
+  stages: [Kickoff Meeting, Onboarding, Implementation, QA, Beta Launch, Go Live]
+magic_test_values: []
+magic_test_values_note: >-
+  Virtual Peaker publishes no magic device UIDs, no simulator devices and no forced-error triggers.
+  Testing is done against real (or OEM-simulated) devices in the dev environment.

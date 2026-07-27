@@ -1,0 +1,80 @@
+generated: '2026-07-27'
+method: derived
+source: >-
+  openapi/virtual-peaker-gravity-connect-vpp-api-openapi.yml (the five Publishing operations) and
+  the Glossary / Device Enrollment / Commands sections of
+  https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html
+spec_type: none
+asyncapi_published: false
+asyncapi_note: >-
+  Virtual Peaker publishes NO AsyncAPI document. Probed the docs host, the asset host
+  (/asyncapi.yaml, /asyncapi.json under /gravity-connect/), the GitHub organization and
+  virtual-peaker.com/llms.txt — nothing. This file is the derived catalog of the real, documented
+  webhook surface; it is not a fabricated AsyncAPI.
+event_surface:
+  model: webhook (HTTP POST callbacks), Device Partner -> Virtual Peaker
+  verbatim: >-
+    "Webhook: A method for apps to provide other applications with real-time information. When an
+    event occurs, a HTTP POST callback is sent to the specified webhook URL endpoint. Gravity
+    Connect uses webhooks for Device Partners to publish data updates instead of the VPP polling
+    for data."
+  direction_note: >-
+    Gravity Connect inverts the usual webhook shape. Virtual Peaker does not call the integrator's
+    callback URL — the integrator (the device OEM) POSTs to Virtual Peaker's fixed publishing
+    endpoints. There is no subscription-management API, no callback registration and no
+    per-event-type filtering; the analogue of a subscription is the VPP calling the OEM's
+    modifySubscription endpoint to turn device publishing on or off.
+  endpoint_base: https://partner.virtualpeaker.io/v1
+  authentication: >-
+    HMAC-SHA256 over the raw body, sent as 'Authorization: Publish <hex-hmac>'
+  ack: HTTP 202 Accepted (components.responses.accepted)
+  max_payload_bytes: 262144
+  retries: exponential backoff on 429, 502, 503, 504; discard on all other errors
+  ordering: not guaranteed; every payload carries its own RFC 3339 `time`
+events:
+- name: signal-setting-published
+  operation: publishSignalSetting
+  channel: POST /publish/{PROGRAM_PUBLISH_KEY}/update
+  secret: DEVICE_PUBLISH_SECRET
+  payload: 'uid (string), kind (DeviceKindEnum), signal (SignalSetting[]), setting (SignalSetting[])'
+  description: >-
+    Device telemetry and configuration. The legal signal/setting keys are device-type specific
+    (TSTAT, HWH, battery, EVSE, storage HVAC). Integration testing requires power data in
+    5-minute increments or the Energy Interval endpoint.
+- name: command-status-published
+  operation: publishCommand
+  channel: POST /publish/{PROGRAM_PUBLISH_KEY}/command
+  secret: PROGRAM_PUBLISH_SECRET
+  payload: CommandState (refId required)
+  description: >-
+    Lifecycle status of a command the VPP dispatched — PENDING, IN_PROGRESS, and terminal states.
+- name: device-command-status-published
+  operation: publishDeviceCommand
+  channel: POST /publish/{PROGRAM_PUBLISH_KEY}/command/device
+  secret: DEVICE_PUBLISH_SECRET
+  payload: CommandState + uid (both required)
+  description: >-
+    Per-device status inside a group command, and the channel an individual device uses to report
+    OPT_OUT of an event.
+- name: device-enrollment-published
+  operation: publishDeviceEnrollment
+  channel: POST /publish/{PROGRAM_PUBLISH_KEY}/device
+  secret: PROGRAM_PUBLISH_SECRET
+  payload: 'state (enrolled|unenrolled), device (DeviceDetails), time (date-time), pairingCode (optional)'
+  description: >-
+    Enrollment and unenrollment of a single device. pairingCode is present only in the Pairing Code
+    Device Discovery flow (2-char program prefix + 5 numerics + Luhn check digit).
+- name: device-partner-driven-enrollment-published
+  operation: publishDevicePartnerDrivenEnrollment
+  channel: POST /publish/{PROGRAM_PUBLISH_KEY}/enrollment
+  secret: PROGRAM_PUBLISH_SECRET
+  payload: 'devices (DeviceDetails[]), site (UserDetails), time (date-time)'
+  description: >-
+    In-app enrollment, pre-enrollment from OEM-owned marketplaces, and bulk device enrollment.
+    Added in spec 2.0.5 — the newest event on the surface.
+inbound_callbacks:
+  note: >-
+    The reverse direction is not webhooks but ordinary authenticated REST: the VPP calls the OEM's
+    sendCommand, cancelCommand, modifySubscription and group operations with an OAuth 2.0 bearer
+    token. Commands arrive at most 60 seconds before the event start time.
+  operations: [sendCommand, cancelCommand, modifySubscription, manageGroupDevices, commandOptOut]

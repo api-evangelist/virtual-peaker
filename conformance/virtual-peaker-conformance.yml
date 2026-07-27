@@ -1,0 +1,112 @@
+generated: '2026-07-27'
+method: derived
+source: >-
+  openapi/ (both Gravity Connect documents) plus the published guides at
+  assets.virtualpeaker.io/gravity-connect/ and the marketing pages virtual-peaker.com/apis/ and
+  /partners/device-partners/.
+summary: >-
+  Gravity Connect conforms to the generic web-API stack (OpenAPI 3.0.0, OAuth 2.0, HMAC-SHA256,
+  JSON, ISO 8601, ISO 3166-1 alpha-2, Luhn) and to NO energy-sector interoperability standard. It
+  is positioned by its author as an alternative to OpenADR and IEEE 2030.5 rather than an
+  implementation of either. Virtual Peaker publishes no security or privacy certification of any
+  kind.
+standards:
+- id: openapi-3.0
+  conforms: true
+  evidence: both documents declare openapi 3.0.0 and validate; served as Redoc references
+- id: oauth2
+  conforms: true
+  evidence: >-
+    components.securitySchemes declares device_partner_api_auth (clientCredentials, scope
+    basic_partner_read_write) and device_partner_user_auth (authorizationCode, scope user_read)
+- id: oauth2-client-credentials
+  conforms: true
+  evidence: platform-to-partner calls; token endpoint OEM-hosted
+- id: oauth2-authorization-code
+  conforms: true
+  evidence: OAuth Device Discovery homeowner-consent flow
+- id: oidc
+  conforms: false
+  evidence: no openIdConnect scheme, no /.well-known/openid-configuration on any host
+- id: pkce
+  conforms: unknown
+  evidence: not mentioned in the specification; left to the Device Partner's OAuth implementation
+- id: rfc8414-authorization-server-metadata
+  conforms: false
+  evidence: /.well-known/oauth-authorization-server returns 403/404 on every host
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: no /.well-known/security.txt on any Virtual Peaker host
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: errors are status-code + description only; no application/problem+json, no error schema
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: no deprecation or sunset headers, no deprecation policy
+- id: hmac-sha256-request-signing
+  conforms: true
+  evidence: >-
+    'Authorization: Publish <hex-hmac>' over the raw request body, keyed by PROGRAM_PUBLISH_SECRET
+    or DEVICE_PUBLISH_SECRET; reference Node.js snippet published in the VPP guide
+- id: iso-8601-timestamps
+  conforms: true
+  evidence: all signal/setting/command time fields are ISO 8601
+- id: iso-3166-1-alpha-2
+  conforms: true
+  evidence: >-
+    required country field on published house/service addresses; spec 1.3.3 explicitly corrected
+    earlier documentation that used `USA`
+- id: luhn-check-digit
+  conforms: true
+  evidence: 8-character pairing code = 2-char program prefix + 5 numerics + 1 Luhn check digit
+- id: webhooks
+  conforms: true
+  evidence: >-
+    glossary defines webhooks as the delivery model — "Gravity Connect uses webhooks for Device
+    Partners to publish data updates instead of the VPP polling for data"; five publish operations
+- id: asyncapi
+  conforms: false
+  evidence: no AsyncAPI document is published for the webhook surface
+- id: json-api
+  conforms: false
+- id: odata
+  conforms: false
+- id: openadr
+  conforms: false
+  evidence: >-
+    Virtual Peaker states it has "several OpenADR integrations" on the platform side but publishes
+    no VEN/VTN profile and no OpenADR Alliance certification. The device-partners page positions
+    Gravity Connect as able to "replace unwieldy current practices like OpenADR and IEEE 2030.5",
+    and the company blog ("API Showdown: Gravity Connect v. OpenADR") argues OpenADR "uses outdated
+    technology".
+- id: ieee-2030.5
+  conforms: false
+  evidence: named only as an incumbent Gravity Connect intends to displace
+- id: iec-61850 / iec-cim
+  conforms: false
+- id: ocpp
+  conforms: false
+  evidence: EVSE device type is modelled in Gravity Connect's own vocabulary, not OCPP
+- id: ocpi
+  conforms: false
+- id: green-button-espi
+  conforms: false
+  evidence: >-
+    No Green Button, ESPI, NAESB REQ.21, Download My Data or Connect My Data implementation
+    anywhere on the site, in llms.txt, or in either specification. Virtual Peaker is a DERMS/VPP
+    vendor, not a utility or data holder — no consumer energy data right attaches.
+- id: cdr-energy
+  conforms: false
+  evidence: US/Canada vendor; not on the Australian CDR register
+- id: cta-2045
+  conforms: partial
+  evidence: >-
+    The device vocabulary uses CTA modes and cta-op-modes (clarified in spec 1.4.0), so the
+    device-side control vocabulary borrows CTA-2045 semantics, but no CTA-2045 conformance is
+    claimed or certified.
+certifications: []
+certifications_note: >-
+  No SOC 2, ISO 27001, PCI DSS, HIPAA, FedRAMP, CSA STAR or GDPR posture is published. There is no
+  trust center, no security page and no compliance page — /security/, /trust/, /compliance/ all
+  return 404 and trust.virtual-peaker.com does not resolve. No `Compliance` pointer is emitted for
+  this provider because nothing is published to point at.

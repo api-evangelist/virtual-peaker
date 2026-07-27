@@ -1,0 +1,59 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Gravity Connect API (Virtual Peaker)
+  version: 1.0.0
+extends: openapi/virtual-peaker-gravity-connect-vpp-api-openapi.yml
+x-apievangelist:
+  generated: '2026-07-27'
+  method: generated
+  source: >-
+    Derived from the harvested specification plus the artifacts in this repo. Captures API
+    Evangelist annotations only — the harvested OpenAPI is never mutated.
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: virtual-peaker
+    x-apievangelist-artifacts:
+      conventions: conventions/virtual-peaker-conventions.yml
+      authentication: authentication/virtual-peaker-authentication.yml
+      errors: errors/virtual-peaker-problem-types.yml
+      lifecycle: lifecycle/virtual-peaker-lifecycle.yml
+      changelog: changelog/virtual-peaker-changelog.yml
+      data_model: data-model/virtual-peaker-data-model.yml
+      sandbox: sandbox/virtual-peaker-sandbox.yml
+      webhooks: asyncapi/virtual-peaker-gravity-connect-webhooks.yml
+    x-apievangelist-notes: >-
+      The publishing half of Gravity Connect, hosted by Virtual Peaker at
+      https://partner.virtualpeaker.io/v1 (dev stage: https://partner-dev.virtualpeaker.io/v1). All
+      five operations are the provider's webhook/event surface.
+- target: $.info
+  update:
+    x-apievangelist-gaps:
+    - >-
+      components.securitySchemes is EMPTY and no security requirement is declared, yet every
+      operation is authenticated — HMAC-SHA256 over the raw body sent as
+      'Authorization: Publish <hmac>'. The auth model is documented in prose only, so a generated
+      client from this spec will send unauthenticated requests.
+    - 400 and 401 responses carry empty descriptions on all five operations
+    - 429/502/503/504 retry guidance lives in prose only, not in the spec responses
+    - the 262,144-byte max payload size is prose only, not a spec constraint
+- target: $.components
+  update:
+    x-apievangelist-recommended-securityScheme:
+      publishHmac:
+        type: apiKey
+        in: header
+        name: Authorization
+        description: >-
+          RECOMMENDATION (not a provider claim): 'Publish <hex>' where <hex> is the HMAC-SHA256 of
+          the raw request body keyed by PROGRAM_PUBLISH_SECRET (program-level publishes) or
+          DEVICE_PUBLISH_SECRET (device-level publishes). Declaring it would let generated clients
+          and agents see the auth requirement.
+- target: $.servers
+  update:
+  - url: https://partner.virtualpeaker.io/v1
+    description: Production (verified live — anonymous request returns HTTP 403 MissingAuthenticationToken)
+  - url: https://partner-dev.virtualpeaker.io/v1
+    description: >-
+      Development stage, published as the default vpBaseUrl in Virtual Peaker's own Postman
+      collection. Added by API Evangelist; credentials are partner-only.

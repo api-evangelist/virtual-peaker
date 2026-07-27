@@ -1,0 +1,95 @@
+generated: '2026-07-27'
+method: searched
+source: openapi/virtual-peaker-gravity-connect-device-partner-api-openapi.yml
+docs:
+- https://assets.virtualpeaker.io/gravity-connect/vp-api.html#section/Authentication
+- https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html#section/Authentication
+note: >-
+  Derived mechanically from the OpenAPI securitySchemes, then upgraded from the published
+  Authentication sections of both Gravity Connect guides. The upgrade matters: the VPP publishing
+  document declares an EMPTY components.securitySchemes and no security requirement, yet all five
+  of its operations are authenticated with an HMAC-SHA256 signature. A tool reading only the spec
+  would conclude that half of Gravity Connect is unauthenticated.
+summary:
+  types:
+  - oauth2
+  - hmac
+  oauth2_flows:
+  - authorizationCode
+  - clientCredentials
+  directions:
+  - direction: VPP -> Device Partner
+    model: oauth2
+  - direction: Device Partner -> VPP
+    model: hmac-sha256 body signature
+credential_issuance:
+  model: partner-only, per utility program
+  request: gravity-connect@virtual-peaker.com
+  self_serve: false
+schemes:
+- name: device_partner_api_auth
+  type: oauth2
+  direction: VPP -> Device Partner
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://example.com/oauth/token
+    tokenUrl_note: >-
+      Placeholder. The Device Partner (OEM) hosts the authorization server; the real token endpoint
+      is exchanged during onboarding.
+    scopes: 1
+    scope_names: [basic_partner_read_write]
+  client_authentication: Send as Basic header (per Virtual Peaker's published Postman setup)
+  credentials: [clientId, clientSecret]
+  credentials_note: program-specific, provided by the Device Partner
+  applies_to_operations: 16 of the 18 device-partner operations
+  sources:
+  - openapi/virtual-peaker-gravity-connect-device-partner-api-openapi.yml
+- name: device_partner_user_auth
+  type: oauth2
+  direction: VPP -> Device Partner (homeowner-consented)
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://example.com/oauth/authorize
+    tokenUrl: https://example.com/oauth/token
+    scopes: 1
+    scope_names: [user_read]
+  description: >-
+    If using the OAuth onboarding method, this authentication method is used for the respective
+    endpoints (published description). Used by the OAuth Device Discovery enrollment flow, where
+    the homeowner logs in to the device partner and grants the VPP access to their devices. May
+    reuse the client-credentials application or use separate credentials.
+  applies_to_operations: [readCurrentUser, readCurrentUserDevices]
+  pkce: not specified in the specification
+  sources:
+  - openapi/virtual-peaker-gravity-connect-device-partner-api-openapi.yml
+- name: publish_hmac
+  type: hmac
+  algorithm: HMAC-SHA256
+  direction: Device Partner -> VPP
+  declared_in_spec: false
+  header: Authorization
+  value_format: 'Publish <hex-hmac>'
+  signed_material: the raw JSON request body
+  key_material:
+  - name: PROGRAM_PUBLISH_SECRET
+    issued: when the utility program is set up
+    used_by: [publishCommand, publishDeviceEnrollment, publishDevicePartnerDrivenEnrollment]
+  - name: DEVICE_PUBLISH_SECRET
+    issued: per device, delivered when the VPP calls modifySubscription at enrollment
+    used_by: [publishSignalSetting, publishDeviceCommand]
+  path_identifier: PROGRAM_PUBLISH_KEY (path parameter on every publishing endpoint)
+  reference_implementation: |
+    const crypto = require('crypto');
+    const computedHMAC = crypto.createHmac('sha256', secret).update(body).digest('hex');
+    // Authorization: Publish ${computedHMAC}
+  history: spec 1.2.0 clarified the header is `Authorization`, not `Authentication`
+  sources:
+  - https://assets.virtualpeaker.io/gravity-connect/vp-api.html#section/Authentication
+  - openapi/virtual-peaker-gravity-connect-vpp-api-openapi.yml
+gaps:
+- the VPP publishing document declares no securityScheme at all — see
+  overlays/virtual-peaker-gravity-connect-vpp-api-overlay.yaml for the recommended declaration
+- the root security requirement of the device-partner document references a scope
+  (device_partner_basic_auth) that no flow declares
+- no OIDC discovery, no RFC 8414 metadata, no PKCE requirement, no mTLS
+- no token lifetime, refresh or rotation policy is published

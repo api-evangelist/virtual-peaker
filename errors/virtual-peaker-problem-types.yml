@@ -1,0 +1,76 @@
+generated: '2026-07-27'
+method: derived
+source: >-
+  openapi/virtual-peaker-gravity-connect-device-partner-api-openapi.yml and
+  openapi/virtual-peaker-gravity-connect-vpp-api-openapi.yml (4xx/default responses on all 23
+  operations), enriched from the "Error Handling" section of
+  https://assets.virtualpeaker.io/gravity-connect/vp-api.html
+format: none
+problem_json: false
+envelope:
+  media_type: application/json
+  schema: undeclared
+  note: >-
+    Gravity Connect declares its error responses by status code and description only — there is no
+    shared error schema in components, no error-code registry, no machine-readable error type URI
+    and no application/problem+json. The 400 and 401 responses in both documents carry an EMPTY
+    description. This is the weakest part of an otherwise well-structured contract; an
+    implementing OEM has to invent its own error body.
+problems:
+- status: 400
+  title: Bad request
+  description: >-
+    Declared on all 23 operations with no description and no schema. In practice: malformed JSON,
+    an unknown SIGNAL_KEY/SETTING_KEY for the device type, a payload over the 262,144-byte limit,
+    a missing required field (e.g. country on a published house since spec 1.3.3), or an invalid
+    pairing code (bad prefix or failing Luhn check digit).
+  retryable: false
+  operations: all (23)
+- status: 401
+  title: Unauthorized
+  description: >-
+    Declared on all 23 operations. On the Device Partner half this is an invalid or expired OAuth
+    2.0 bearer token (client-credentials scope basic_partner_read_write, or authorization-code
+    scope user_read). On the Virtual Peaker publishing half this is a failed HMAC-SHA256 signature
+    check — a wrong PROGRAM_PUBLISH_SECRET / DEVICE_PUBLISH_SECRET, a signature computed over
+    different bytes than were sent, or use of the `Authentication` header instead of
+    `Authorization` (the exact confusion spec 1.2.0 was cut to clarify).
+  retryable: false
+  operations: all (23)
+- status: 404
+  title: Signal or setting not found
+  description: >-
+    The only 404 declared anywhere in Gravity Connect — returned when the requested DATA_KEY does
+    not exist for that device.
+  retryable: false
+  source_operation: openapi/virtual-peaker-gravity-connect-device-partner-api-openapi.yml#readSignalSetting
+  operations: [readSignalSetting]
+- status: default
+  title: unexpected error
+  description: The catch-all response declared on all 23 operations, described only as "unexpected error".
+  retryable: conditional (see retry_policy)
+  operations: all (23)
+retry_policy:
+  source: https://assets.virtualpeaker.io/gravity-connect/vp-api.html
+  verbatim: >-
+    "For the following error codes, please retry using exponential backoff: 429, 502, 503, 504.
+    All other requests that receive an error should be discarded."
+  retry_on:
+  - status: 429
+    meaning: too many requests (no quota, no Retry-After and no rate-limit headers are documented)
+  - status: 502
+    meaning: bad gateway
+  - status: 503
+    meaning: service unavailable
+  - status: 504
+    meaning: gateway timeout
+  discard_on: every other error status — Gravity Connect explicitly tells the caller not to retry
+  note: >-
+    429/502/503/504 are named ONLY in this prose section; none of them is declared as a response in
+    either OpenAPI document, so an agent reading the spec alone will not see them.
+gaps:
+- 400 and 401 responses have empty descriptions across all 23 operations
+- no error body schema, no error codes, no error identifiers to switch on
+- retryable statuses (429/502/503/504) documented in prose but absent from the spec
+- an anonymous call to the live host returns the AWS API Gateway envelope
+  {"message":"Missing Authentication Token"}, which is not part of the documented contract

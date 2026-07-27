@@ -1,0 +1,55 @@
+generated: '2026-07-27'
+method: derived
+source: openapi/virtual-peaker-gravity-connect-device-partner-api-openapi.yml
+docs: https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html#section/Authentication
+docs_note: >-
+  Virtual Peaker publishes no scopes/permissions reference page. The Redoc guide renders the same
+  securitySchemes captured below and adds no scope beyond them, so this stays a derived artifact.
+  Scopes apply only to the device-partner half of Gravity Connect (VPP -> OEM); the publishing half
+  uses HMAC signatures and has no scope surface at all.
+schemes:
+- name: device_partner_api_auth
+  source: openapi/virtual-peaker-gravity-connect-device-partner-api-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://example.com/oauth/token
+    tokenUrl_note: OEM-hosted; the published value is a placeholder
+- name: device_partner_user_auth
+  source: openapi/virtual-peaker-gravity-connect-device-partner-api-openapi.yml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://example.com/oauth/authorize
+    tokenUrl: https://example.com/oauth/token
+  description: If using the OAuth onboarding method, this authentication method is used for
+    the respective endpoints. Please the the FAQ for more details.
+scopes:
+- scope: basic_partner_read_write
+  description: conducts all actions on the partners behalf
+  flows:
+  - clientCredentials
+  operations: 16
+  note: >-
+    A single coarse read/write scope covering every platform-to-partner operation — device reads,
+    signal/setting writes, commands, subscription changes and group management. There is no
+    read-only scope and no per-resource separation.
+  sources:
+  - openapi/virtual-peaker-gravity-connect-device-partner-api-openapi.yml
+- scope: user_read
+  description: read details about new user
+  flows:
+  - authorizationCode
+  operations: [readCurrentUser, readCurrentUserDevices]
+  note: The homeowner-consented scope used by OAuth Device Discovery.
+  sources:
+  - openapi/virtual-peaker-gravity-connect-device-partner-api-openapi.yml
+- scope: device_partner_basic_auth
+  description: null
+  flows: []
+  status: spec-defect
+  note: >-
+    Referenced by the document's root `security` requirement
+    ({device_partner_api_auth: [device_partner_basic_auth]}) but declared by no flow. Every
+    operation-level requirement uses basic_partner_read_write instead. Treat this as a
+    documentation bug, not a real scope — do not request it.
+  sources:
+  - openapi/virtual-peaker-gravity-connect-device-partner-api-openapi.yml

@@ -1,0 +1,126 @@
+generated: '2026-07-27'
+method: searched
+source: >-
+  The "# Changelog" sections published inside both Gravity Connect guides —
+  https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html and
+  https://assets.virtualpeaker.io/gravity-connect/vp-api.html (carried verbatim in the OpenAPI
+  info.description of each harvested document).
+scheme: semver-ish (MAJOR.MINOR.PATCH on the specification, not on the wire)
+current_version: 2.0.6
+dated: false
+dated_note: >-
+  Virtual Peaker publishes NO dated changelog, no release-notes feed and no RSS. Entries are listed
+  newest-first with a version number and a one-line note, but carry no dates, no author and no
+  links to diffs. The list below is transcribed in the published order; dates are null because the
+  provider does not publish them.
+scope: >-
+  Two changelogs exist — one per half of the contract. The device-partner guide tracks the whole
+  specification (16 entries, 1.0.1 through 2.0.6); the VPP guide tracks only changes touching the
+  publishing endpoints (7 entries).
+entries:
+- version: 2.0.6
+  date: null
+  breaking: false
+  surfaces: [device-partner, vpp]
+  highlights: Revised the explanatory sections of the documentation.
+- version: 2.0.5
+  date: null
+  breaking: false
+  surfaces: [device-partner, vpp]
+  highlights: Added Device Partner Driven Enrollment (publishDevicePartnerDrivenEnrollment).
+- version: 2.0.4
+  date: null
+  breaking: false
+  surfaces: [device-partner]
+  highlights: Updated power and energy signals in the TSTAT device-specific definition.
+- version: 2.0.3
+  date: null
+  breaking: false
+  surfaces: [device-partner]
+  highlights: Updated the command and signals in the TSTAT device-specific definition.
+- version: 2.0.2
+  date: null
+  breaking: false
+  surfaces: [device-partner]
+  highlights: >-
+    Added `unsubscribe` from device publishing as the VPP's method of unenrollment; updated
+    diagrams and minor typo fixes.
+- version: 2.0.1
+  date: null
+  breaking: false
+  surfaces: [device-partner]
+  highlights: Major documentation update including the Energy Interval endpoint (readDeviceEnergyInterval).
+- version: 1.5.2
+  date: null
+  breaking: false
+  surfaces: [device-partner]
+  highlights: Fixed the incorrect `baseUrl` to the correct `vpBaseUrl` in the VP Endpoints of the Postman Collection.
+- version: 1.5.0
+  date: null
+  breaking: false
+  surfaces: [device-partner]
+  highlights: Added the EVSE device type with signals, settings and commands.
+- version: 1.4.1
+  date: null
+  breaking: false
+  surfaces: [device-partner]
+  highlights: >-
+    Added the storage HVAC device type and FAQs; clarified that startTime may be in the past; made
+    deviceUids optional when creating a group.
+- version: 1.4.0
+  date: null
+  breaking: true
+  surfaces: [device-partner]
+  highlights: >-
+    Clarified CTA modes, swapping NORMAL in for RUN_NORMAL, and cta-op-modes — an enum value
+    rename on the device-type vocabulary.
+- version: 1.3.3
+  date: null
+  breaking: true
+  surfaces: [device-partner]
+  highlights: >-
+    Required `country` when houses are published to the device partner, and specified that the
+    field follows ISO 3166-1 alpha-2 (previous documentation referenced `USA` as a value).
+- version: 1.3.2
+  date: null
+  breaking: false
+  surfaces: [device-partner]
+  highlights: Added an optional array of devices when publishing houses.
+- version: 1.3.0
+  date: null
+  breaking: false
+  surfaces: [device-partner]
+  highlights: Added an endpoint for individual devices to opt out of a group command (commandOptOut).
+- version: 1.2.2
+  date: null
+  breaking: false
+  surfaces: [vpp]
+  highlights: Added the maximum payload size (262,144 bytes).
+- version: 1.2.1
+  date: null
+  breaking: false
+  surfaces: [vpp]
+  highlights: Clarified command status vs device command status reporting.
+- version: 1.2.0
+  date: null
+  breaking: false
+  surfaces: [device-partner, vpp]
+  highlights: >-
+    device-partner — added the "Publish houses for installation" endpoint under a new pairing-code
+    onboarding flow, and clarified pairing-code structure and international addresses;
+    vpp — clarified that the auth header is `Authorization`, not `Authentication`.
+- version: 1.1.0
+  date: null
+  breaking: false
+  surfaces: [device-partner, vpp]
+  highlights: >-
+    device-partner — added Pairing Code Device Discovery as a proposal and clarified that
+    1 program = 1 utility; vpp — added pairingCode as an optional field on Publish device enrollment.
+- version: 1.0.1
+  date: null
+  breaking: false
+  surfaces: [device-partner, vpp]
+  highlights: >-
+    device-partner — `invalidDevices` was documented under the request body for Update group
+    details but belongs in the response; vpp — fixed the `device` key in Publish device enrollment
+    status to refer to the device details rather than just the kind of device.

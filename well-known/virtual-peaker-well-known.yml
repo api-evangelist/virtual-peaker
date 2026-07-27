@@ -1,0 +1,45 @@
+generated: '2026-07-27'
+method: probed
+source: live anonymous HTTP probes of every Virtual Peaker web, docs, asset and API host
+notes: >-
+  Virtual Peaker publishes NO /.well-known/ discovery surface of any kind. The marketing site
+  (WordPress) returns 404 for every well-known path; the API hosts (partner.virtualpeaker.io and
+  partner-dev.virtualpeaker.io) are AWS API Gateway stages that answer every unmatched path with
+  HTTP 403 `{"message":"Missing Authentication Token"}`, so a 403 there is "no such route", not a
+  protected document; the asset host (assets.virtualpeaker.io, S3/CloudFront) returns 403 for any
+  key that does not exist. There is no security.txt, no OIDC discovery document and no RFC 8414
+  authorization-server metadata — consistent with Gravity Connect OAuth being implemented by each
+  Device Partner (OEM) on its own host, not by Virtual Peaker.
+hosts:
+- host: https://virtual-peaker.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+- host: https://partner.virtualpeaker.io
+  documents:
+  - path: /.well-known/security.txt
+    status: 403
+  - path: /.well-known/oauth-authorization-server
+    status: 403
+  - path: /.well-known/openid-configuration
+    status: 403
+  note: AWS API Gateway — 403 MissingAuthenticationToken is returned for all unmatched paths
+- host: https://assets.virtualpeaker.io
+  documents:
+  - path: /.well-known/security.txt
+    status: 403
+- host: https://support.virtual-peaker.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+found: []

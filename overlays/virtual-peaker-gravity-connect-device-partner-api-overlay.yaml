@@ -1,0 +1,58 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Gravity Connect API (Device Partner)
+  version: 1.0.0
+extends: openapi/virtual-peaker-gravity-connect-device-partner-api-openapi.yml
+x-apievangelist:
+  generated: '2026-07-27'
+  method: generated
+  source: >-
+    Derived from the harvested specification plus the artifacts in this repo. Captures API
+    Evangelist annotations only — the harvested OpenAPI is never mutated.
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: virtual-peaker
+    x-apievangelist-artifacts:
+      conventions: conventions/virtual-peaker-conventions.yml
+      authentication: authentication/virtual-peaker-authentication.yml
+      scopes: scopes/virtual-peaker-scopes.yml
+      errors: errors/virtual-peaker-problem-types.yml
+      lifecycle: lifecycle/virtual-peaker-lifecycle.yml
+      changelog: changelog/virtual-peaker-changelog.yml
+      data_model: data-model/virtual-peaker-data-model.yml
+      sandbox: sandbox/virtual-peaker-sandbox.yml
+      webhooks: asyncapi/virtual-peaker-gravity-connect-webhooks.yml
+      agentic_access: agentic-access/virtual-peaker-agentic-access.yml
+    x-apievangelist-notes: >-
+      This half of Gravity Connect is implemented and hosted by the device OEM, not by Virtual
+      Peaker, so servers[] is a placeholder. The counterpart half is
+      openapi/virtual-peaker-gravity-connect-vpp-api-openapi.yml.
+- target: $.servers
+  update:
+  - url: https://example.com
+    description: >-
+      Placeholder. The Device Partner (OEM) hosts this surface on its own domain; the base URL is
+      exchanged during partner onboarding.
+- target: $.info
+  update:
+    x-apievangelist-gaps:
+    - 400 and 401 responses carry empty descriptions on all 18 operations
+    - no error schema and no error-code registry; the Details envelope concedes there is no standard
+    - 429/502/503/504 retry guidance lives in prose only, not in the spec responses
+    - root security requirement references a scope (device_partner_basic_auth) that is not declared
+      in the securityScheme's clientCredentials flow (declared scope is basic_partner_read_write)
+    - no rate limits, no pagination, no idempotency key, no request-id header
+    - one operation (readDeviceEnergyInterval) is tagged "Energy Interval Endpoint", a tag that is
+      not declared in the root tags[] list
+- target: $.tags
+  update:
+  - name: Energy Interval Endpoint
+    description: >-
+      Added by API Evangelist — used by readDeviceEnergyInterval but missing from the published
+      root tags[].
+- target: $.components.securitySchemes.device_partner_api_auth
+  update:
+    x-apievangelist-note: >-
+      Token endpoint is OEM-hosted; https://example.com/oauth/token is a placeholder. Postman setup
+      published by Virtual Peaker specifies "Send as Basic header" client authentication.

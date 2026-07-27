@@ -1,0 +1,48 @@
+generated: '2026-07-27'
+method: searched
+source: >-
+  Public registry searches (npm, PyPI, RubyGems, crates.io, pkg.go.dev, NuGet, Maven Central,
+  Packagist), the github.com/virtual-peaker organization, and the two published Gravity Connect
+  Redoc references on assets.virtualpeaker.io.
+packages: []
+note: >-
+  Virtual Peaker publishes NO first-party client libraries in any public package registry, and no
+  SDK is referenced anywhere in the Gravity Connect documentation. The published integration
+  helpers are code SNIPPETS, not packages: the VPP API guide ships an inline Node.js
+  `crypto.createHmac('sha256', secret)` script for signing publish requests, and the Device
+  Partner guide ships a downloadable Postman collection whose pre-request scripts compute the same
+  HMAC. Gravity Connect is a specification the Device Partner (OEM) implements server-side, so the
+  provider ships a contract rather than a client.
+github_organization:
+  url: https://github.com/virtual-peaker
+  public_repos: 7
+  first_party_libraries: 0
+  note: >-
+    All seven public repositories are forks of unrelated third-party OSS (sequelize,
+    angular-moment-picker, v-calendar, vue-style-loader, redis-clustr, passwordless-mysql,
+    vue2-web-component-wrapper). No Gravity Connect code, no SDK, no reference implementation.
+registries_probed:
+- registry: npm
+  query: ['gravity-connect', 'virtual peaker']
+  result: no first-party package (all hits are the unrelated @gravity-ui/* org)
+- registry: pypi
+  query: ['virtual-peaker', 'virtualpeaker', 'gravity-connect']
+  result: 404 for all
+- registry: rubygems
+  query: ['virtual_peaker']
+  result: 404
+- registry: crates.io
+  query: ['virtual peaker']
+  result: 0 crates
+- registry: pkg.go.dev
+  query: ['virtualpeaker']
+  result: no module
+- registry: nuget
+  query: ['virtual peaker']
+  result: no package
+- registry: maven-central
+  query: ['virtualpeaker']
+  result: no artifact
+related_artifacts:
+- postman/virtual-peaker-gravity-connect-api.postman_collection.json
+- conventions/virtual-peaker-conventions.yml

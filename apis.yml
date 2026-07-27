@@ -34,7 +34,7 @@ accessModel:
   - authentication
   generated: '2026-07-27'
   method: manual
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/groq.png
+image: https://assets.virtualpeaker.io/gravity-connect/assets/vp_logo.png
 tags:
 - Energy
 - United States
@@ -50,6 +50,15 @@ tags:
 - Energy Storage
 created: '2026-07-27'
 modified: '2026-07-27'
+enrichment:
+  round: '2026-07-27'
+  method: search/generate/derive
+  notes: >-
+    Round 2 enrichment. Contract discovery re-run against every host (partner.virtualpeaker.io,
+    partner-dev.virtualpeaker.io, assets.virtualpeaker.io, virtual-peaker.com,
+    support.virtual-peaker.com): no additional OpenAPI, no GraphQL, no MCP server, no AsyncAPI and
+    no /.well-known/ surface exist. New finds this round: the publicly downloadable Gravity Connect
+    Postman collection and the partner-dev environment it points at.
 specificationVersion: '0.19'
 apis:
 - aid: virtual-peaker:gravity-connect-device-partner-api
@@ -80,6 +89,10 @@ apis:
     url: https://virtual-peaker.com/partners/device-partners/
   - type: Blog
     url: https://virtual-peaker.com/blog/gravity-connect-api-oem-derms-integrations/
+  - type: Overlay
+    url: overlays/virtual-peaker-gravity-connect-device-partner-api-overlay.yaml
+  - type: GettingStarted
+    url: https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html#section/Getting-Started
 - aid: virtual-peaker:gravity-connect-vpp-api
   name: Gravity Connect API (Virtual Peaker)
   description: >-
@@ -108,7 +121,19 @@ apis:
     url: https://virtual-peaker.com/apis/
   - type: Blog
     url: https://virtual-peaker.com/blog/gravity-connect-v-openadr/
+  - type: Overlay
+    url: overlays/virtual-peaker-gravity-connect-vpp-api-overlay.yaml
+  - type: Webhooks
+    url: asyncapi/virtual-peaker-gravity-connect-webhooks.yml
 common:
+- type: AgenticAccess
+  url: agentic-access/virtual-peaker-agentic-access.yml
+- type: DomainSecurity
+  url: security/virtual-peaker-domain-security.yml
+- type: OAuthScopes
+  url: scopes/virtual-peaker-scopes.yml
+- type: Authentication
+  url: authentication/virtual-peaker-authentication.yml
 - type: Website
   url: https://virtual-peaker.com/
 - type: Documentation
@@ -119,6 +144,8 @@ common:
   url: https://virtual-peaker.com/blog/
 - type: BlogRSS
   url: https://virtual-peaker.com/feed/
+- type: Support
+  url: https://support.virtual-peaker.com/knowledge
 - type: SupportCenter
   url: https://support.virtual-peaker.com/knowledge
 - type: GitHubOrganization
@@ -131,8 +158,47 @@ common:
   url: https://virtual-peaker.com/terms-of-use/
 - type: ContactForm
   url: https://virtual-peaker.com/company/contact/
+- type: PartnerPortal
+  url: https://virtual-peaker.com/partners/device-partners/
+  name: Device Partners — the marketing entry point for OEM integrations (the Gravity Connect
+    references themselves are linked from nowhere on the site)
+- type: GettingStarted
+  url: https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html#section/Getting-Started
+- type: Login
+  url: https://utility.virtualpeaker.io/
+  name: Utility application sign-in (no self-serve sign-up exists)
+- type: Postman
+  url: https://assets.virtualpeaker.io/gravity-connect/Gravity%20Connect%20API.postman_collection.json
+  name: Gravity Connect API Postman collection — published, anonymously downloadable, 19 requests
+    with HMAC pre-request scripts
+- type: LLMsTxt
+  url: https://virtual-peaker.com/llms.txt
+- type: LLMsTxt
+  url: llms/virtual-peaker-llms.txt
 - type: llmsTxt
   url: https://virtual-peaker.com/llms.txt
+- type: Conventions
+  url: conventions/virtual-peaker-conventions.yml
+- type: ErrorCatalog
+  url: errors/virtual-peaker-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/virtual-peaker-lifecycle.yml
+- type: ChangeLog
+  url: changelog/virtual-peaker-changelog.yml
+- type: Conformance
+  url: conformance/virtual-peaker-conformance.yml
+- type: DataModel
+  url: data-model/virtual-peaker-data-model.yml
+- type: Sandbox
+  url: sandbox/virtual-peaker-sandbox.yml
+  name: Partner-only development environment (partner-dev.virtualpeaker.io) — no self-serve sandbox
+- type: Webhooks
+  url: asyncapi/virtual-peaker-gravity-connect-webhooks.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Packages
+  url: packages/virtual-peaker-packages.yml
+  name: No first-party SDK exists in any registry — recorded as a verified negative
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
