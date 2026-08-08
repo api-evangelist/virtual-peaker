@@ -2,6 +2,34 @@
   "repo": "virtual-peaker",
   "feeds": [
     {
+      "source": "https://virtual-peaker.com/partners/device-partners/feed/",
+      "feed_url": "https://virtual-peaker.com/partners/device-partners/feed/",
+      "title": "",
+      "saved": 0,
+      "method": "feed"
+    },
+    {
+      "source": "https://virtual-peaker.com/apis/feed/",
+      "feed_url": "https://virtual-peaker.com/apis/feed/",
+      "title": "",
+      "saved": 0,
+      "method": "feed"
+    },
+    {
+      "source": "https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html",
+      "feed_url": "https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html",
+      "title": "",
+      "saved": 0,
+      "method": "none"
+    },
+    {
+      "source": "https://virtual-peaker.com/blog/feed/",
+      "feed_url": "https://virtual-peaker.com/blog/feed/",
+      "title": "",
+      "saved": 0,
+      "method": "feed"
+    },
+    {
       "source": "https://virtual-peaker.com/partners/device-partners/",
       "feed_url": "https://virtual-peaker.com/partners/device-partners/feed/",
       "title": "",
@@ -16,13 +44,6 @@
       "method": "discovered"
     },
     {
-      "source": "https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html",
-      "feed_url": "https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html",
-      "title": "",
-      "saved": 0,
-      "method": "none"
-    },
-    {
       "source": "https://virtual-peaker.com/blog/",
       "feed_url": "https://virtual-peaker.com/blog/feed/",
       "title": "",
@@ -31,5 +52,5 @@
     }
   ],
   "post_count": 0,
-  "fetched": "2026-08-01T15:49:00Z"
+  "fetched": "2026-08-06T14:08:46Z"
 }
