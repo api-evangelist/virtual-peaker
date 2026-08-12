@@ -126,6 +126,8 @@ apis:
   - type: Webhooks
     url: asyncapi/virtual-peaker-gravity-connect-webhooks.yml
 common:
+- type: MCPServer
+  url: mcp/virtual-peaker-mcp.yml
 - type: AgenticAccess
   url: agentic-access/virtual-peaker-agentic-access.yml
 - type: DomainSecurity
