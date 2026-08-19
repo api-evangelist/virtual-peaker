@@ -1,0 +1,603 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Gravity Connect API (Device Partner)",
+    "version": "2.0.6"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "https://example.com/oauth/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Devices",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Read device details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://example.com/device/:DEVICE_UID",
+            "params": [
+              {
+                "name": "DEVICE_UID",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the target device within the partner's platform"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://example.com/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Read device details"
+        },
+        {
+          "info": {
+            "name": "Read signal/setting",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://example.com/device/:DEVICE_UID/:SIGNAL_OR_SETTING/:DATA_KEY",
+            "params": [
+              {
+                "name": "DEVICE_UID",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the target device within the partner's platform"
+              },
+              {
+                "name": "SIGNAL_OR_SETTING",
+                "value": "",
+                "type": "path",
+                "description": "Whether the data type is a signal or a setting"
+              },
+              {
+                "name": "DATA_KEY",
+                "value": "",
+                "type": "path",
+                "description": "The signal/setting type being read, varies based on device type, see documentation"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://example.com/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Read signal/setting"
+        },
+        {
+          "info": {
+            "name": "Update signal/setting",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://example.com/device/:DEVICE_UID/:SIGNAL_OR_SETTING/:DATA_KEY",
+            "params": [
+              {
+                "name": "DEVICE_UID",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the target device within the partner's platform"
+              },
+              {
+                "name": "SIGNAL_OR_SETTING",
+                "value": "",
+                "type": "path",
+                "description": "Whether the data type is a signal or a setting"
+              },
+              {
+                "name": "DATA_KEY",
+                "value": "",
+                "type": "path",
+                "description": "The signal/setting type being read, varies based on device type, see documentation"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://example.com/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "There may be cases where a particular signal or setting can be modified by Virtual Peaker. If this is supported, this endpoint is to be used."
+        },
+        {
+          "info": {
+            "name": "Manage device publishing",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://example.com/subscription",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://example.com/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "This endpoint is used to enable or disable the publishing of device data (signals and settings) to Virtual Peaker."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Pairing Code Device Discovery - End User App",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Describe device's user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://example.com/device/:DEVICE_UID/user",
+            "params": [
+              {
+                "name": "DEVICE_UID",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the target device within the partner's platform"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://example.com/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "If a new device is added to Virtual Peaker via the Virtual Peaker's publish device enrollment endpoint. Virtual Peaker will use this endpoint to discover the user associated with the device."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Pairing Code Device Discovery - Utility Commissioned Installation",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Publish houses for installation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://example.com/houses",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://example.com/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "In the use case where the device partner needs a list of houses to physically install devices, Virtual Peaker will publish the list of houses and corresponding pairing codes via this endpoint. Virtual Peaker will publish to this endpoint nightly with a list of all houses/devices to be installed (the same house will be published each night until it is installed). When the device is installed, the device partner will then use the [publish device enrollment status](./vp-api.html#operation/publishDe"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Commands",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Send command",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://example.com/command",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://example.com/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Send command"
+        },
+        {
+          "info": {
+            "name": "Read command state",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://example.com/command/:COMMAND_REFERENCE_ID",
+            "params": [
+              {
+                "name": "COMMAND_REFERENCE_ID",
+                "value": "",
+                "type": "path",
+                "description": "The id of the command being read"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://example.com/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Read command state"
+        },
+        {
+          "info": {
+            "name": "Cancel command",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://example.com/command/:COMMAND_REFERENCE_ID",
+            "params": [
+              {
+                "name": "COMMAND_REFERENCE_ID",
+                "value": "",
+                "type": "path",
+                "description": "The id of the command being cancelled"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://example.com/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Cancel command"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Group Management",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create group",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://example.com/group",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://example.com/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Create group"
+        },
+        {
+          "info": {
+            "name": "Read group details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://example.com/group/:GROUP_ID",
+            "params": [
+              {
+                "name": "GROUP_ID",
+                "value": "",
+                "type": "path",
+                "description": "The id of the device being targeted"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://example.com/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Read group details"
+        },
+        {
+          "info": {
+            "name": "Update group details",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://example.com/group/:GROUP_ID",
+            "params": [
+              {
+                "name": "GROUP_ID",
+                "value": "",
+                "type": "path",
+                "description": "The id of the device being targeted"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://example.com/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Update group details, if deviceUids is passed, it will overwrite the current list of devices."
+        },
+        {
+          "info": {
+            "name": "Delete group",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://example.com/group/:GROUP_ID",
+            "params": [
+              {
+                "name": "GROUP_ID",
+                "value": "",
+                "type": "path",
+                "description": "The id of the device being targeted"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://example.com/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Deletes a group and returns the list of devices that were within the group when deleted"
+        },
+        {
+          "info": {
+            "name": "Manage group devices",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://example.com/group/:GROUP_ID/devices",
+            "params": [
+              {
+                "name": "GROUP_ID",
+                "value": "",
+                "type": "path",
+                "description": "The id of the device being targeted"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://example.com/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Manage group devices"
+        },
+        {
+          "info": {
+            "name": "Command Opt-Out",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://example.com/command/:COMMAND_REFERENCE_ID/opt-out",
+            "params": [
+              {
+                "name": "COMMAND_REFERENCE_ID",
+                "value": "",
+                "type": "path",
+                "description": "The id of the command"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://example.com/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "To communicate that particular devices within a group have opted out. For non-group command this is achieved via canceling the entire command."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "OAuth Device Discovery (Preferred)",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Read current user's devices",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://example.com/devices",
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://example.com/oauth/authorize",
+              "accessTokenUrl": "https://example.com/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Read current user's devices"
+        },
+        {
+          "info": {
+            "name": "Read current user's details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://example.com/user",
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://example.com/oauth/authorize",
+              "accessTokenUrl": "https://example.com/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Read current user's details"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Energy Interval Endpoint",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Energy interval data from non-tstat device",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://example.com/device/:DEVICE_UID/energy",
+            "params": [
+              {
+                "name": "DEVICE_UID",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the target device within the partner's platform"
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query",
+                "description": "For more see, [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6). As an example, '2017-07-21T17:32:28Z'. The timezone is always zero UTC offset. A startTime in the past should still be considered valid if startTime + duration is still in the future"
+              },
+              {
+                "name": "duration",
+                "value": "",
+                "type": "query",
+                "description": "Length of event in seconds. The value should be greater than 0. If a device partner imposes a maximum event duration, frequently it is either 8 or 24 hours."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://example.com/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Energy interval data from non-tstat device"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

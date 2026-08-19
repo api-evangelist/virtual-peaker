@@ -1,0 +1,1507 @@
+{
+  "item": [
+    {
+      "id": "6b4bd40f-c409-4854-8fd8-1e6cd8622d4a",
+      "name": "Publishing",
+      "description": {
+        "content": "All of the endpoints below allow the Device Partner to publish data to the Virtual Peaker platform, which avoids Virtual Peaker having to constantly poll the data when there haven't been any changes. Part of the [Device Partner Implementation](example.com) does include endpoint to read poll for data, which could be used by Virtual Peaker to gather the first batch of data or for debugging.\n\n**Notes:**\n- The maximum supported payload size for all requests listed below is 262,144 bytes.\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "17960047-f41a-4f06-9e24-3e3484c783ad",
+          "name": "Publish signal/setting value",
+          "request": {
+            "name": "Publish signal/setting value",
+            "description": {
+              "content": "This endpoint publishes device data to Virtual Peaker. The signal and setting types vary by device type. Please reference the [Device Specific Definitions section](device-partner-api.html#section/Device-Specific-Definitions) to see the signals and settings for each device. Also, a required field is required overall for that device although not required every time data is reported for that device.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "publish",
+                ":PROGRAM_PUBLISH_KEY",
+                "update"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "PROGRAM_PUBLISH_KEY",
+                  "description": "(Required) The identifier of the program within Virtual Peaker"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uid\": \"<string>\",\n  \"kind\": \"<string>\",\n  \"signal\": [\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\",\n      \"time\": \"<dateTime>\"\n    },\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\",\n      \"time\": \"<dateTime>\"\n    }\n  ],\n  \"setting\": [\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\",\n      \"time\": \"<dateTime>\"\n    },\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\",\n      \"time\": \"<dateTime>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "03bba5e0-2941-421a-89df-9c0f5ef3312e",
+              "name": "Message has been accepted for processing",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "publish",
+                    ":PROGRAM_PUBLISH_KEY",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "PROGRAM_PUBLISH_KEY",
+                      "description": "(Required) The identifier of the program within Virtual Peaker"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) `Publish`, followed by the value of: HMAC(algorithm=`sha256``, key=DEVICE_PUBLISH_SECRET, data=BODY)",
+                    "key": "Authorization",
+                    "value": "Publish 6"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"uid\": \"<string>\",\n  \"kind\": \"<string>\",\n  \"signal\": [\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\",\n      \"time\": \"<dateTime>\"\n    },\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\",\n      \"time\": \"<dateTime>\"\n    }\n  ],\n  \"setting\": [\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\",\n      \"time\": \"<dateTime>\"\n    },\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\",\n      \"time\": \"<dateTime>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "257170f3-dc98-468b-9caa-1fd231b78a4b",
+              "name": "Request was not properly formatted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "publish",
+                    ":PROGRAM_PUBLISH_KEY",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "PROGRAM_PUBLISH_KEY",
+                      "description": "(Required) The identifier of the program within Virtual Peaker"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) `Publish`, followed by the value of: HMAC(algorithm=`sha256``, key=DEVICE_PUBLISH_SECRET, data=BODY)",
+                    "key": "Authorization",
+                    "value": "Publish 6"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"uid\": \"<string>\",\n  \"kind\": \"<string>\",\n  \"signal\": [\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\",\n      \"time\": \"<dateTime>\"\n    },\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\",\n      \"time\": \"<dateTime>\"\n    }\n  ],\n  \"setting\": [\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\",\n      \"time\": \"<dateTime>\"\n    },\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\",\n      \"time\": \"<dateTime>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6d88a6a2-0226-40cb-b79b-4779c946381c",
+              "name": "HMAC validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "publish",
+                    ":PROGRAM_PUBLISH_KEY",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "PROGRAM_PUBLISH_KEY",
+                      "description": "(Required) The identifier of the program within Virtual Peaker"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) `Publish`, followed by the value of: HMAC(algorithm=`sha256``, key=DEVICE_PUBLISH_SECRET, data=BODY)",
+                    "key": "Authorization",
+                    "value": "Publish 6"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"uid\": \"<string>\",\n  \"kind\": \"<string>\",\n  \"signal\": [\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\",\n      \"time\": \"<dateTime>\"\n    },\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\",\n      \"time\": \"<dateTime>\"\n    }\n  ],\n  \"setting\": [\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\",\n      \"time\": \"<dateTime>\"\n    },\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\",\n      \"time\": \"<dateTime>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4e43096c-fafc-4983-9aaa-4a63694b06e9",
+              "name": "unexpected error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "publish",
+                    ":PROGRAM_PUBLISH_KEY",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "PROGRAM_PUBLISH_KEY",
+                      "description": "(Required) The identifier of the program within Virtual Peaker"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) `Publish`, followed by the value of: HMAC(algorithm=`sha256``, key=DEVICE_PUBLISH_SECRET, data=BODY)",
+                    "key": "Authorization",
+                    "value": "Publish 6"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"uid\": \"<string>\",\n  \"kind\": \"<string>\",\n  \"signal\": [\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\",\n      \"time\": \"<dateTime>\"\n    },\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\",\n      \"time\": \"<dateTime>\"\n    }\n  ],\n  \"setting\": [\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\",\n      \"time\": \"<dateTime>\"\n    },\n    {\n      \"key\": \"<string>\",\n      \"value\": \"<string>\",\n      \"time\": \"<dateTime>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5d35cd93-6be3-417c-bcf4-775da07e5724",
+          "name": "Publish command status",
+          "request": {
+            "name": "Publish command status",
+            "description": {
+              "content": "Used to report back the status of a command. For more details please reference the FAQs",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "publish",
+                ":PROGRAM_PUBLISH_KEY",
+                "command"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "PROGRAM_PUBLISH_KEY",
+                  "description": "(Required) The identifier of the program within Virtual Peaker"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refId\": \"<string>\",\n  \"state\": \"<string>\",\n  \"time\": \"<dateTime>\",\n  \"description\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c68967e4-0e0d-4636-beec-9a2ebf238325",
+              "name": "Message has been accepted for processing",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "publish",
+                    ":PROGRAM_PUBLISH_KEY",
+                    "command"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "PROGRAM_PUBLISH_KEY",
+                      "description": "(Required) The identifier of the program within Virtual Peaker"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) `Publish`, followed by the value of: HMAC(algorithm=`sha256``, key=PROGRAM_PUBLISH_SECRET, data=BODY)",
+                    "key": "Authorization",
+                    "value": "Publish 6"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"refId\": \"<string>\",\n  \"state\": \"<string>\",\n  \"time\": \"<dateTime>\",\n  \"description\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d62de3cf-e07b-4eea-b7c5-b6a8bdd1d126",
+              "name": "Request was not properly formatted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "publish",
+                    ":PROGRAM_PUBLISH_KEY",
+                    "command"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "PROGRAM_PUBLISH_KEY",
+                      "description": "(Required) The identifier of the program within Virtual Peaker"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) `Publish`, followed by the value of: HMAC(algorithm=`sha256``, key=PROGRAM_PUBLISH_SECRET, data=BODY)",
+                    "key": "Authorization",
+                    "value": "Publish 6"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"refId\": \"<string>\",\n  \"state\": \"<string>\",\n  \"time\": \"<dateTime>\",\n  \"description\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "51aed455-2911-48b5-bf21-5690d6d3051c",
+              "name": "HMAC validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "publish",
+                    ":PROGRAM_PUBLISH_KEY",
+                    "command"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "PROGRAM_PUBLISH_KEY",
+                      "description": "(Required) The identifier of the program within Virtual Peaker"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) `Publish`, followed by the value of: HMAC(algorithm=`sha256``, key=PROGRAM_PUBLISH_SECRET, data=BODY)",
+                    "key": "Authorization",
+                    "value": "Publish 6"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"refId\": \"<string>\",\n  \"state\": \"<string>\",\n  \"time\": \"<dateTime>\",\n  \"description\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2e8040f6-e6af-4e71-ad8b-46123fc9272a",
+              "name": "unexpected error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "publish",
+                    ":PROGRAM_PUBLISH_KEY",
+                    "command"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "PROGRAM_PUBLISH_KEY",
+                      "description": "(Required) The identifier of the program within Virtual Peaker"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) `Publish`, followed by the value of: HMAC(algorithm=`sha256``, key=PROGRAM_PUBLISH_SECRET, data=BODY)",
+                    "key": "Authorization",
+                    "value": "Publish 6"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"refId\": \"<string>\",\n  \"state\": \"<string>\",\n  \"time\": \"<dateTime>\",\n  \"description\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ccdd663b-d948-47f3-a373-f3227adb4e04",
+          "name": "Publish device command status",
+          "request": {
+            "name": "Publish device command status",
+            "description": {
+              "content": "Only used if grouping is being used. For more details please reference the FAQs",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "publish",
+                ":PROGRAM_PUBLISH_KEY",
+                "command",
+                "device"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "PROGRAM_PUBLISH_KEY",
+                  "description": "(Required) The identifier of the program within Virtual Peaker"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refId\": \"<string>\",\n  \"state\": \"<string>\",\n  \"time\": \"<dateTime>\",\n  \"uid\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "07d866d7-15ae-49ef-92d8-f6a31c6a5af3",
+              "name": "Message has been accepted for processing",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "publish",
+                    ":PROGRAM_PUBLISH_KEY",
+                    "command",
+                    "device"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "PROGRAM_PUBLISH_KEY",
+                      "description": "(Required) The identifier of the program within Virtual Peaker"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) `Publish`, followed by the value of: HMAC(algorithm=`sha256``, key=PROGRAM_PUBLISH_SECRET, data=BODY)",
+                    "key": "Authorization",
+                    "value": "Publish 6"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"refId\": \"<string>\",\n  \"state\": \"<string>\",\n  \"time\": \"<dateTime>\",\n  \"uid\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "247612e3-dcf8-473c-a00e-0bb0a4361b9c",
+              "name": "Request was not properly formatted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "publish",
+                    ":PROGRAM_PUBLISH_KEY",
+                    "command",
+                    "device"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "PROGRAM_PUBLISH_KEY",
+                      "description": "(Required) The identifier of the program within Virtual Peaker"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) `Publish`, followed by the value of: HMAC(algorithm=`sha256``, key=PROGRAM_PUBLISH_SECRET, data=BODY)",
+                    "key": "Authorization",
+                    "value": "Publish 6"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"refId\": \"<string>\",\n  \"state\": \"<string>\",\n  \"time\": \"<dateTime>\",\n  \"uid\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d464092d-f6c2-42a5-b3e1-992f88b95b89",
+              "name": "HMAC validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "publish",
+                    ":PROGRAM_PUBLISH_KEY",
+                    "command",
+                    "device"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "PROGRAM_PUBLISH_KEY",
+                      "description": "(Required) The identifier of the program within Virtual Peaker"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) `Publish`, followed by the value of: HMAC(algorithm=`sha256``, key=PROGRAM_PUBLISH_SECRET, data=BODY)",
+                    "key": "Authorization",
+                    "value": "Publish 6"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"refId\": \"<string>\",\n  \"state\": \"<string>\",\n  \"time\": \"<dateTime>\",\n  \"uid\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2c341c08-187f-4b92-8c93-9e13cecda709",
+              "name": "unexpected error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "publish",
+                    ":PROGRAM_PUBLISH_KEY",
+                    "command",
+                    "device"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "PROGRAM_PUBLISH_KEY",
+                      "description": "(Required) The identifier of the program within Virtual Peaker"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) `Publish`, followed by the value of: HMAC(algorithm=`sha256``, key=PROGRAM_PUBLISH_SECRET, data=BODY)",
+                    "key": "Authorization",
+                    "value": "Publish 6"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"refId\": \"<string>\",\n  \"state\": \"<string>\",\n  \"time\": \"<dateTime>\",\n  \"uid\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6acd0eb3-e587-4842-a4f0-a5d42308047d",
+          "name": "Publish device enrollment status",
+          "request": {
+            "name": "Publish device enrollment status",
+            "description": {
+              "content": "If using OAuth Device Onboarding, devices are assumed to be enrolled when initially discovered.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "publish",
+                ":PROGRAM_PUBLISH_KEY",
+                "device"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "PROGRAM_PUBLISH_KEY",
+                  "description": "(Required) The identifier of the program within Virtual Peaker"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"state\": \"<string>\",\n  \"device\": {\n    \"uid\": \"<string>\",\n    \"kind\": \"<string>\",\n    \"type\": \"<string>\",\n    \"name\": \"<string>\",\n    \"serialNumber\": \"<string>\"\n  },\n  \"time\": \"<dateTime>\",\n  \"pairingCode\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c9e8c119-37b5-47ed-86e0-3c7592823a79",
+              "name": "Message has been accepted for processing",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "publish",
+                    ":PROGRAM_PUBLISH_KEY",
+                    "device"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "PROGRAM_PUBLISH_KEY",
+                      "description": "(Required) The identifier of the program within Virtual Peaker"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) `Publish`, followed by the value of: HMAC(algorithm=`sha256``, key=PROGRAM_PUBLISH_SECRET, data=BODY)",
+                    "key": "Authorization",
+                    "value": "Publish 6"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"state\": \"<string>\",\n  \"device\": {\n    \"uid\": \"<string>\",\n    \"kind\": \"<string>\",\n    \"type\": \"<string>\",\n    \"name\": \"<string>\",\n    \"serialNumber\": \"<string>\"\n  },\n  \"time\": \"<dateTime>\",\n  \"pairingCode\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bba8838a-9b90-4552-8199-5fa688740efa",
+              "name": "Request was not properly formatted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "publish",
+                    ":PROGRAM_PUBLISH_KEY",
+                    "device"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "PROGRAM_PUBLISH_KEY",
+                      "description": "(Required) The identifier of the program within Virtual Peaker"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) `Publish`, followed by the value of: HMAC(algorithm=`sha256``, key=PROGRAM_PUBLISH_SECRET, data=BODY)",
+                    "key": "Authorization",
+                    "value": "Publish 6"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"state\": \"<string>\",\n  \"device\": {\n    \"uid\": \"<string>\",\n    \"kind\": \"<string>\",\n    \"type\": \"<string>\",\n    \"name\": \"<string>\",\n    \"serialNumber\": \"<string>\"\n  },\n  \"time\": \"<dateTime>\",\n  \"pairingCode\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "77ae7f95-1181-4936-a9ee-9aa5761c22e1",
+              "name": "HMAC validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "publish",
+                    ":PROGRAM_PUBLISH_KEY",
+                    "device"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "PROGRAM_PUBLISH_KEY",
+                      "description": "(Required) The identifier of the program within Virtual Peaker"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) `Publish`, followed by the value of: HMAC(algorithm=`sha256``, key=PROGRAM_PUBLISH_SECRET, data=BODY)",
+                    "key": "Authorization",
+                    "value": "Publish 6"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"state\": \"<string>\",\n  \"device\": {\n    \"uid\": \"<string>\",\n    \"kind\": \"<string>\",\n    \"type\": \"<string>\",\n    \"name\": \"<string>\",\n    \"serialNumber\": \"<string>\"\n  },\n  \"time\": \"<dateTime>\",\n  \"pairingCode\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c9c34603-cc8d-4095-a56d-dfda4971db9a",
+              "name": "unexpected error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "publish",
+                    ":PROGRAM_PUBLISH_KEY",
+                    "device"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "PROGRAM_PUBLISH_KEY",
+                      "description": "(Required) The identifier of the program within Virtual Peaker"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) `Publish`, followed by the value of: HMAC(algorithm=`sha256``, key=PROGRAM_PUBLISH_SECRET, data=BODY)",
+                    "key": "Authorization",
+                    "value": "Publish 6"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"state\": \"<string>\",\n  \"device\": {\n    \"uid\": \"<string>\",\n    \"kind\": \"<string>\",\n    \"type\": \"<string>\",\n    \"name\": \"<string>\",\n    \"serialNumber\": \"<string>\"\n  },\n  \"time\": \"<dateTime>\",\n  \"pairingCode\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "52e9b89e-aafb-439a-9923-5e06e1ce3000",
+          "name": "Publish device partner driven enrollment",
+          "request": {
+            "name": "Publish device partner driven enrollment",
+            "description": {
+              "content": "Used for publishing device and site information for in-app enrollment, pre-enrollment from OEM-owned marketplaces, and bulk device enrollment.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "publish",
+                ":PROGRAM_PUBLISH_KEY",
+                "enrollment"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "PROGRAM_PUBLISH_KEY",
+                  "description": "(Required) The identifier of the program within Virtual Peaker"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"devices\": [\n    {\n      \"uid\": \"<string>\",\n      \"kind\": \"<string>\",\n      \"type\": \"<string>\",\n      \"name\": \"<string>\",\n      \"serialNumber\": \"<string>\"\n    },\n    {\n      \"uid\": \"<string>\",\n      \"kind\": \"<string>\",\n      \"type\": \"<string>\",\n      \"name\": \"<string>\",\n      \"serialNumber\": \"<string>\"\n    }\n  ],\n  \"time\": \"<dateTime>\",\n  \"site\": {\n    \"email\": \"<string>\",\n    \"userId\": \"<string>\",\n    \"accountNumber\": \"<string>\",\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"serviceAddress\": {\n      \"streetAddress\": \"<string>\",\n      \"streetAddress2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"postalCode\": \"<string>\",\n      \"country\": \"<string>\"\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b93de0fb-5011-48d6-93d6-9b6608dbc24f",
+              "name": "Message has been accepted for processing",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "publish",
+                    ":PROGRAM_PUBLISH_KEY",
+                    "enrollment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "PROGRAM_PUBLISH_KEY",
+                      "description": "(Required) The identifier of the program within Virtual Peaker"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) `Publish`, followed by the value of: HMAC(algorithm=`sha256``, key=PROGRAM_PUBLISH_SECRET, data=BODY)",
+                    "key": "Authorization",
+                    "value": "Publish 6"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"devices\": [\n    {\n      \"uid\": \"<string>\",\n      \"kind\": \"<string>\",\n      \"type\": \"<string>\",\n      \"name\": \"<string>\",\n      \"serialNumber\": \"<string>\"\n    },\n    {\n      \"uid\": \"<string>\",\n      \"kind\": \"<string>\",\n      \"type\": \"<string>\",\n      \"name\": \"<string>\",\n      \"serialNumber\": \"<string>\"\n    }\n  ],\n  \"time\": \"<dateTime>\",\n  \"site\": {\n    \"email\": \"<string>\",\n    \"userId\": \"<string>\",\n    \"accountNumber\": \"<string>\",\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"serviceAddress\": {\n      \"streetAddress\": \"<string>\",\n      \"streetAddress2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"postalCode\": \"<string>\",\n      \"country\": \"<string>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aecab2a7-c3c7-476c-ac7a-3211b0f2ceb9",
+              "name": "Request was not properly formatted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "publish",
+                    ":PROGRAM_PUBLISH_KEY",
+                    "enrollment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "PROGRAM_PUBLISH_KEY",
+                      "description": "(Required) The identifier of the program within Virtual Peaker"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) `Publish`, followed by the value of: HMAC(algorithm=`sha256``, key=PROGRAM_PUBLISH_SECRET, data=BODY)",
+                    "key": "Authorization",
+                    "value": "Publish 6"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"devices\": [\n    {\n      \"uid\": \"<string>\",\n      \"kind\": \"<string>\",\n      \"type\": \"<string>\",\n      \"name\": \"<string>\",\n      \"serialNumber\": \"<string>\"\n    },\n    {\n      \"uid\": \"<string>\",\n      \"kind\": \"<string>\",\n      \"type\": \"<string>\",\n      \"name\": \"<string>\",\n      \"serialNumber\": \"<string>\"\n    }\n  ],\n  \"time\": \"<dateTime>\",\n  \"site\": {\n    \"email\": \"<string>\",\n    \"userId\": \"<string>\",\n    \"accountNumber\": \"<string>\",\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"serviceAddress\": {\n      \"streetAddress\": \"<string>\",\n      \"streetAddress2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"postalCode\": \"<string>\",\n      \"country\": \"<string>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8098edc2-005d-472b-8936-8980eeb98477",
+              "name": "HMAC validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "publish",
+                    ":PROGRAM_PUBLISH_KEY",
+                    "enrollment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "PROGRAM_PUBLISH_KEY",
+                      "description": "(Required) The identifier of the program within Virtual Peaker"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) `Publish`, followed by the value of: HMAC(algorithm=`sha256``, key=PROGRAM_PUBLISH_SECRET, data=BODY)",
+                    "key": "Authorization",
+                    "value": "Publish 6"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"devices\": [\n    {\n      \"uid\": \"<string>\",\n      \"kind\": \"<string>\",\n      \"type\": \"<string>\",\n      \"name\": \"<string>\",\n      \"serialNumber\": \"<string>\"\n    },\n    {\n      \"uid\": \"<string>\",\n      \"kind\": \"<string>\",\n      \"type\": \"<string>\",\n      \"name\": \"<string>\",\n      \"serialNumber\": \"<string>\"\n    }\n  ],\n  \"time\": \"<dateTime>\",\n  \"site\": {\n    \"email\": \"<string>\",\n    \"userId\": \"<string>\",\n    \"accountNumber\": \"<string>\",\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"serviceAddress\": {\n      \"streetAddress\": \"<string>\",\n      \"streetAddress2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"postalCode\": \"<string>\",\n      \"country\": \"<string>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fe522a90-0ec8-4cef-b93c-90174bdac665",
+              "name": "unexpected error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "publish",
+                    ":PROGRAM_PUBLISH_KEY",
+                    "enrollment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "PROGRAM_PUBLISH_KEY",
+                      "description": "(Required) The identifier of the program within Virtual Peaker"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) `Publish`, followed by the value of: HMAC(algorithm=`sha256``, key=PROGRAM_PUBLISH_SECRET, data=BODY)",
+                    "key": "Authorization",
+                    "value": "Publish 6"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"devices\": [\n    {\n      \"uid\": \"<string>\",\n      \"kind\": \"<string>\",\n      \"type\": \"<string>\",\n      \"name\": \"<string>\",\n      \"serialNumber\": \"<string>\"\n    },\n    {\n      \"uid\": \"<string>\",\n      \"kind\": \"<string>\",\n      \"type\": \"<string>\",\n      \"name\": \"<string>\",\n      \"serialNumber\": \"<string>\"\n    }\n  ],\n  \"time\": \"<dateTime>\",\n  \"site\": {\n    \"email\": \"<string>\",\n    \"userId\": \"<string>\",\n    \"accountNumber\": \"<string>\",\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"serviceAddress\": {\n      \"streetAddress\": \"<string>\",\n      \"streetAddress2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"postalCode\": \"<string>\",\n      \"country\": \"<string>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://partner.virtualpeaker.io/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "c6ec3374-cbc5-439b-8420-0691068fd527",
+    "name": "Gravity Connect API (Virtual Peaker)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# Introduction\nThis is the documentation for the endpoints implemented by Virtual Power Plants (VPPs) for integrating devices with the Gravity Connect API.\n\nThe endpoints that a Device Partner implements are described in the [Device Partner Guide](./device-partner-api.html).\n\n# Changelog\nBelow are any noteworthy changes to the API spec.\n\n* 2.0.6 - Revised the explanatory sections of the documentation.\n* 2.0.5 - Added Device Partner Driven Enrollment.\n* 1.2.2 - Added maximum payload size\n* 1.2.1 - Clarifying command status vs device command status reporting\n* 1.2.0 - Clarifying that auth header is Authorization not Authentication\n* 1.1.0 - Adding pairingCode as an optional field for `Publish device enrollment`\n* 1.0.1 - Fixing the `device` key in the `Publish device enrollment status` to refer to the device details rather than just the kind of device\n\n# Authentication\nGravity Connect uses the following authentication models:\n\n**Requests from the VPP to the Device Partner's endpoints**\n* These requests use OAuth 2.0 authentication. Please note that these OAuth credentials are required even if the homeowner enrollment flow is not OAuth-based. If the homeowner enrollment flow is OAuth-based, it can use separate credentials or it can re-use these.\n* The Device Partner provides:\n  * `clientId`: A program-specific ID.\n  * `clientSecret`: A program-specific secret.\n\n**Requests from the Device Partner to the VPP's endpoints**\n* These requests authenticate using a combination of the following credentials and HMAC authentication. The signature validation allows Gravity Connect endpoints to be called only by authorized parties in possession of the valid `PUBLISH_SECRET`.\n  * The VPP provides:\n    * `PROGRAM_PUBLISH_KEY`: The unique identifier for a utility program, provided when a program is set up.\n    * `PROGRAM_PUBLISH_SECRET`: The secret key used to generate HMAC signatures when publishing program-level data, provided when a program is set up.\n    * `DEVICE_PUBLISH_SECRET`: The secret key used to generate HMAC signatures when publishing device-level data, provided when each device is enrolled.\n\nTo authenticate with the VPP's endpoints:\n1. Construct the payload body for the API request.\n2. Generate an HMAC hash on the request body content using the `PROGRAM_PUBLISH_SECRET` or `DEVICE_PUBLISH_SECRET`, as specified for that endpoint.\n3. Set the Authorization header with the signature.\n\nExample: `Authorization: Publish 12345abcdef`\n  * Where 12345abcdef is the HMAC hash.\n  * See the HMAC generation script below for sample code.\n\n## HMAC Script\nThe below script is an example of how to generate an HMAC for some payload in javascript. Other languages should have standard crypto libraries that work similarly.\n\n```javascript\nconst crypto = require('crypto');\n\nconst secret = 'your_secret_here';\nconst body = `{\n  \"uid\": \"your_device_uid\",\n  \"kind\": \"TSTAT\",\n  \"signal\": [{\n    \"key\": \"mode\",\n    \"value\": \"HEAT\",\n    \"time\": \"2021-01-28T15:36:48.586697\"\n  }],\n  \"setting\": [{\n    \"key\": \"max-setpoint\",\n    \"value\": 31.0,\n    \"time\": \"2020-10-20T22:10:57.101616\"\n  }]\n}`;\n\nconst computedHMAC = crypto.createHmac('sha256', secret).update(body).digest('hex');\nconsole.log(`Publish ${computedHMAC}`);\n```\n\n# Error Handling\nFor the following error codes, please retry using exponential backoff:\n* 429\n* 502\n* 503\n* 504\n\nAll other requests that receive an error should be discarded.",
+      "type": "text/plain"
+    }
+  }
+}

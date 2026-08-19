@@ -1,0 +1,163 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Gravity Connect API (Virtual Peaker)",
+    "version": "2.0.6"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Publishing",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Publish signal/setting value",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://partner.virtualpeaker.io/v1/publish/:PROGRAM_PUBLISH_KEY/update",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "PROGRAM_PUBLISH_KEY",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the program within Virtual Peaker"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint publishes device data to Virtual Peaker. The signal and setting types vary by device type. Please reference the [Device Specific Definitions section](device-partner-api.html#section/Device-Specific-Definitions) to see the signals and settings for each device. Also, a required field is required overall for that device although not required every time data is reported for that device."
+        },
+        {
+          "info": {
+            "name": "Publish command status",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://partner.virtualpeaker.io/v1/publish/:PROGRAM_PUBLISH_KEY/command",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "PROGRAM_PUBLISH_KEY",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the program within Virtual Peaker"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Used to report back the status of a command. For more details please reference the FAQs"
+        },
+        {
+          "info": {
+            "name": "Publish device command status",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://partner.virtualpeaker.io/v1/publish/:PROGRAM_PUBLISH_KEY/command/device",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "PROGRAM_PUBLISH_KEY",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the program within Virtual Peaker"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Only used if grouping is being used. For more details please reference the FAQs"
+        },
+        {
+          "info": {
+            "name": "Publish device enrollment status",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://partner.virtualpeaker.io/v1/publish/:PROGRAM_PUBLISH_KEY/device",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "PROGRAM_PUBLISH_KEY",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the program within Virtual Peaker"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "If using OAuth Device Onboarding, devices are assumed to be enrolled when initially discovered."
+        },
+        {
+          "info": {
+            "name": "Publish device partner driven enrollment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://partner.virtualpeaker.io/v1/publish/:PROGRAM_PUBLISH_KEY/enrollment",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "PROGRAM_PUBLISH_KEY",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the program within Virtual Peaker"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Used for publishing device and site information for in-app enrollment, pre-enrollment from OEM-owned marketplaces, and bulk device enrollment."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

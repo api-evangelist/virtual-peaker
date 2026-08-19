@@ -2,16 +2,14 @@ generated: '2026-07-27'
 method: derived
 status: candidate
 source: openapi/ (23 operations across the two published Gravity Connect OpenAPI documents)
-note: >-
-  Virtual Peaker publishes NO MCP server. Searched the docs, the two Gravity Connect Redoc
-  references, the marketing site, virtual-peaker.com/llms.txt, the github.com/virtual-peaker org,
-  npm (@modelcontextprotocol and vendor scopes) and the public MCP registries — nothing. This is a
-  CANDIDATE tool surface derived one-tool-per-operation from the provider's own OpenAPI so the API
-  is representable to agents; it is not a provider claim and nothing is hosted. Each tool inherits
-  its real input schema from the backing operation's parameters + requestBody in the referenced
-  spec. Note the asymmetry of Gravity Connect: the device-partner half is implemented by the OEM
-  (servers[] is the placeholder https://example.com), so those tools have no single canonical host;
-  only the VPP publishing half resolves to https://partner.virtualpeaker.io/v1.
+note: 'Virtual Peaker publishes NO MCP server. Searched the docs, the two Gravity Connect Redoc references,
+  the marketing site, virtual-peaker.com/llms.txt, the github.com/virtual-peaker org, npm (@modelcontextprotocol
+  and vendor scopes) and the public MCP registries — nothing. This is a CANDIDATE tool surface derived
+  one-tool-per-operation from the provider''s own OpenAPI so the API is representable to agents; it is
+  not a provider claim and nothing is hosted. Each tool inherits its real input schema from the backing
+  operation''s parameters + requestBody in the referenced spec. Note the asymmetry of Gravity Connect:
+  the device-partner half is implemented by the OEM (servers[] is the placeholder https://example.com),
+  so those tools have no single canonical host; only the VPP publishing half resolves to https://partner.virtualpeaker.io/v1.'
 server:
   name: virtual-peaker-gravity-connect
   transport: null
@@ -20,13 +18,19 @@ server:
 auth:
   device_partner_half:
     model: oauth2
-    flows: [clientCredentials, authorizationCode]
-    scopes: [basic_partner_read_write, user_read]
+    flows:
+    - clientCredentials
+    - authorizationCode
+    scopes:
+    - basic_partner_read_write
+    - user_read
     note: token endpoints are OEM-hosted; the spec ships example.com placeholders
   vpp_half:
     model: hmac-sha256
     header: 'Authorization: Publish <hmac>'
-    secrets: [PROGRAM_PUBLISH_SECRET, DEVICE_PUBLISH_SECRET]
+    secrets:
+    - PROGRAM_PUBLISH_SECRET
+    - DEVICE_PUBLISH_SECRET
 tools:
 - name: read_device_details
   description: Read device details
@@ -166,3 +170,9 @@ tools:
   source_operation: openapi/virtual-peaker-gravity-connect-vpp-api-openapi.yml#publishDevicePartnerDrivenEnrollment
   http: POST /publish/{PROGRAM_PUBLISH_KEY}/enrollment
   surface: vpp
+deployment:
+  mode: none
+  verified: derived
+  tools: 23
+  checked: '2026-08-12'
+  source: catalog MCP census
