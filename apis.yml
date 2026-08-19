@@ -59,7 +59,7 @@ enrichment:
     support.virtual-peaker.com): no additional OpenAPI, no GraphQL, no MCP server, no AsyncAPI and
     no /.well-known/ surface exist. New finds this round: the publicly downloadable Gravity Connect
     Postman collection and the partner-dev environment it points at.
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 apis:
 - aid: virtual-peaker:gravity-connect-device-partner-api
   name: Gravity Connect API (Device Partner)
