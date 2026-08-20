@@ -79,6 +79,12 @@ apis:
   - Demand Response
   - Device Control
   - OEM
+  - Authentication
+  tags_raw:
+  - DER
+  - Demand Response
+  - Device Control
+  - OEM
   - OAuth
   properties:
   - type: OpenAPI
@@ -107,6 +113,12 @@ apis:
   humanURL: https://assets.virtualpeaker.io/gravity-connect/vp-api.html
   baseURL: https://partner.virtualpeaker.io/v1
   tags:
+  - DER
+  - Demand Response
+  - Publishing
+  - Webhook
+  - HMAC
+  tags_raw:
   - DER
   - Demand Response
   - Publishing
