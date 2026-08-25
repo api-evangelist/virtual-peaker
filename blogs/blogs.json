@@ -20,8 +20,7 @@
       "feed_url": "https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html",
       "title": "",
       "saved": 0,
-      "method": "none",
-      "error": "parse_failed"
+      "method": "none"
     },
     {
       "source": "https://virtual-peaker.com/blog/feed/",
@@ -53,5 +52,5 @@
     }
   ],
   "post_count": 0,
-  "fetched": "2026-08-15T12:11:08Z"
+  "fetched": "2026-08-22T20:20:02Z"
 }
