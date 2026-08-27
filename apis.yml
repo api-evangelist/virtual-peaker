@@ -61,83 +61,337 @@ enrichment:
     Postman collection and the partner-dev environment it points at.
 specificationVersion: '0.23'
 apis:
-- aid: virtual-peaker:gravity-connect-device-partner-api
-  name: Gravity Connect API (Device Partner)
-  description: >-
-    The Device Partner half of Virtual Peaker's Gravity Connect specification — the endpoints a
-    device OEM must implement so a VPP or DERMS platform can discover, enroll, read, group, and
-    command its behind-the-meter DER devices. Version 2.0.6, OpenAPI 3.0.0, 14 paths / 18
-    operations across Devices, Commands, Device Partner Driven Enrollment, OAuth Device Discovery,
-    Pairing Code Device Discovery (end-user app and utility-commissioned installation), Group
-    Management, and an Energy Interval endpoint. The published `servers` entry is the placeholder
-    https://example.com because the OEM, not Virtual Peaker, hosts this surface. Secured with
-    OAuth 2.0 — client credentials (scope basic_partner_read_write) for platform-to-partner calls,
-    and authorization code (scope user_read) for homeowner-consented device discovery.
+- aid: virtual-peaker:virtual-peaker-commands-api
+  name: Virtual Peaker Commands API
+  description: Command specific endpoints
   humanURL: https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html
+  baseURL: https://partner.virtualpeaker.io/v1
   tags:
-  - DER
-  - Demand Response
-  - Device Control
-  - OEM
-  - Authentication
-  tags_raw:
-  - DER
-  - Demand Response
-  - Device Control
-  - OEM
-  - OAuth
+  - Commands
   properties:
   - type: OpenAPI
-    url: openapi/virtual-peaker-gravity-connect-device-partner-api-openapi.yml
+    url: openapi/virtual-peaker-commands-api-openapi.yml
   - type: APIReference
     url: https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html
   - type: Documentation
     url: https://virtual-peaker.com/partners/device-partners/
   - type: Blog
     url: https://virtual-peaker.com/blog/gravity-connect-api-oem-derms-integrations/
-  - type: Overlay
-    url: overlays/virtual-peaker-gravity-connect-device-partner-api-overlay.yaml
   - type: GettingStarted
-    url: https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html#section/Getting-Started
-- aid: virtual-peaker:gravity-connect-vpp-api
-  name: Gravity Connect API (Virtual Peaker)
-  description: >-
-    The VPP half of the Gravity Connect specification — the publishing endpoints Virtual Peaker
-    hosts so an integrated device partner can stream device signals, settings, command status, and
-    enrollment events back into the platform. Version 2.0.6, OpenAPI 3.0.0, 5 paths / 5 operations,
-    all under the Publishing tag and all keyed on a per-program PROGRAM_PUBLISH_KEY. Base URL
-    https://partner.virtualpeaker.io/v1, confirmed live (AWS API Gateway, anonymous request returns
-    HTTP 403 MissingAuthenticationTokenException). Authentication is not OAuth on this side: requests
-    are signed with an HMAC-SHA256 of the request body using a PROGRAM_PUBLISH_SECRET or
-    DEVICE_PUBLISH_SECRET and sent as `Authorization: Publish <hmac>`.
-  humanURL: https://assets.virtualpeaker.io/gravity-connect/vp-api.html
-  baseURL: https://partner.virtualpeaker.io/v1
-  tags:
-  - DER
-  - Demand Response
-  - Publishing
-  - Webhook
-  - HMAC
-  tags_raw:
-  - DER
-  - Demand Response
-  - Publishing
-  - Webhooks
-  - HMAC
-  properties:
-  - type: OpenAPI
-    url: openapi/virtual-peaker-gravity-connect-vpp-api-openapi.yml
+    url: >-
+      https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html#section/Getting-Started
   - type: APIReference
     url: https://assets.virtualpeaker.io/gravity-connect/vp-api.html
   - type: Documentation
     url: https://virtual-peaker.com/apis/
   - type: Blog
     url: https://virtual-peaker.com/blog/gravity-connect-v-openadr/
-  - type: Overlay
-    url: overlays/virtual-peaker-gravity-connect-vpp-api-overlay.yaml
+  - type: Webhooks
+    url: asyncapi/virtual-peaker-gravity-connect-webhooks.yml
+- aid: virtual-peaker:virtual-peaker-devices-api
+  name: Virtual Peaker Devices API
+  description: Device specific endpoints
+  humanURL: https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html
+  baseURL: https://partner.virtualpeaker.io/v1
+  tags:
+  - Devices
+  properties:
+  - type: OpenAPI
+    url: openapi/virtual-peaker-devices-api-openapi.yml
+  - type: APIReference
+    url: https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html
+  - type: Documentation
+    url: https://virtual-peaker.com/partners/device-partners/
+  - type: Blog
+    url: https://virtual-peaker.com/blog/gravity-connect-api-oem-derms-integrations/
+  - type: GettingStarted
+    url: >-
+      https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html#section/Getting-Started
+  - type: APIReference
+    url: https://assets.virtualpeaker.io/gravity-connect/vp-api.html
+  - type: Documentation
+    url: https://virtual-peaker.com/apis/
+  - type: Blog
+    url: https://virtual-peaker.com/blog/gravity-connect-v-openadr/
+  - type: Webhooks
+    url: asyncapi/virtual-peaker-gravity-connect-webhooks.yml
+- aid: virtual-peaker:virtual-peaker-energy-interval-endpoint-api
+  name: Virtual Peaker Energy Interval Endpoint API
+  description: >-
+    The Energy Interval Endpoint API from Virtual Peaker — 1 operation(s) for energy interval endpoint.
+  humanURL: https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html
+  baseURL: https://partner.virtualpeaker.io/v1
+  tags:
+  - Energy Interval Endpoint
+  properties:
+  - type: OpenAPI
+    url: openapi/virtual-peaker-energy-interval-endpoint-api-openapi.yml
+  - type: APIReference
+    url: https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html
+  - type: Documentation
+    url: https://virtual-peaker.com/partners/device-partners/
+  - type: Blog
+    url: https://virtual-peaker.com/blog/gravity-connect-api-oem-derms-integrations/
+  - type: GettingStarted
+    url: >-
+      https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html#section/Getting-Started
+  - type: APIReference
+    url: https://assets.virtualpeaker.io/gravity-connect/vp-api.html
+  - type: Documentation
+    url: https://virtual-peaker.com/apis/
+  - type: Blog
+    url: https://virtual-peaker.com/blog/gravity-connect-v-openadr/
+  - type: Webhooks
+    url: asyncapi/virtual-peaker-gravity-connect-webhooks.yml
+- aid: virtual-peaker:virtual-peaker-group-management-api
+  name: Virtual Peaker Group Management API
+  description: >-
+    Virtual Peaker supports managing groups of devices, in addition to individual device control. Grouping
+    enables utilities to target clusters of devices together in demand response events.While device telemetry
+    and configuration data is still reported on a per-device level, groups allow a single command to be
+    broadcast to multiple enrolled devices simultaneously.
+
+    To utilize grouping, the Device Partner integration must support both individual and group commands
+    concurrently. The same device could receive an individual command, while also belonging to a group
+    receiving a separate directive.
+
+    Group commands have additional considerations:
+      1. Devices can opt out of group events individually, while the overall group command remains active.
+      2. Group command statuses reflect execution at the scheduling engine level rather than device state.
+      3. The Device Partner must reconcile group vs. individual state to ensure consistency in reporting.
+
+    When not specified, all other workflows behave identically between individual and grouped devices
+    - enrollment, data publishing, cancellations, etc.
+  humanURL: https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html
+  baseURL: https://partner.virtualpeaker.io/v1
+  tags:
+  - Group Management
+  properties:
+  - type: OpenAPI
+    url: openapi/virtual-peaker-group-management-api-openapi.yml
+  - type: APIReference
+    url: https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html
+  - type: Documentation
+    url: https://virtual-peaker.com/partners/device-partners/
+  - type: Blog
+    url: https://virtual-peaker.com/blog/gravity-connect-api-oem-derms-integrations/
+  - type: GettingStarted
+    url: >-
+      https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html#section/Getting-Started
+  - type: APIReference
+    url: https://assets.virtualpeaker.io/gravity-connect/vp-api.html
+  - type: Documentation
+    url: https://virtual-peaker.com/apis/
+  - type: Blog
+    url: https://virtual-peaker.com/blog/gravity-connect-v-openadr/
+  - type: Webhooks
+    url: asyncapi/virtual-peaker-gravity-connect-webhooks.yml
+- aid: virtual-peaker:virtual-peaker-oauth-device-discovery-preferred-api
+  name: Virtual Peaker OAuth Device Discovery (Preferred) API
+  description: >-
+    The OAuth device discovery flow works as follows:
+
+    1. The device owner fills out an onboarding form on Virtual Peaker's site.
+
+    2. At the end of the form, we redirect them to the Device Partner's OAuth authorization page via a
+    link.
+
+    3. The user logs into the Device Partner's app and grants OAuth access permissions.
+
+    4. The Device Partner app completes OAuth authorization code flow, exchanging the code for an access
+    token.
+
+    5. Using the access token, the Device Partner calls their API to retrieve the user's devices.
+
+    6. The Device Partner associates the devices with the correct Virtual Peaker program in their backend.
+
+    7. The Device Partner handles any additional onboarding logic in their system.
+
+    8. The Device Partner publishes enrolled device data to Virtual Peaker's API.
+
+    9. Virtual Peaker discovers devices using the OAuth token provided.
+
+    10. We subscribe to devices for data publishing and provide a DEVICE_PUBLISH_SECRET.
+
+    11. Virtual Peaker may optionally pull initial device data from the Device Partner's API.
+
+    For each utility program, a separate client_id is created.
+
+
+    This ID is passed in the OAuth link to associate devices with the correct program.
+  humanURL: https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html
+  baseURL: https://partner.virtualpeaker.io/v1
+  tags:
+  - OAuth Device Discovery (Preferred)
+  properties:
+  - type: OpenAPI
+    url: openapi/virtual-peaker-oauth-device-discovery-preferred-api-openapi.yml
+  - type: APIReference
+    url: https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html
+  - type: Documentation
+    url: https://virtual-peaker.com/partners/device-partners/
+  - type: Blog
+    url: https://virtual-peaker.com/blog/gravity-connect-api-oem-derms-integrations/
+  - type: GettingStarted
+    url: >-
+      https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html#section/Getting-Started
+  - type: APIReference
+    url: https://assets.virtualpeaker.io/gravity-connect/vp-api.html
+  - type: Documentation
+    url: https://virtual-peaker.com/apis/
+  - type: Blog
+    url: https://virtual-peaker.com/blog/gravity-connect-v-openadr/
+  - type: Webhooks
+    url: asyncapi/virtual-peaker-gravity-connect-webhooks.yml
+- aid: virtual-peaker:virtual-peaker-pairing-code-device-discovery-end-user-app-api
+  name: Virtual Peaker Pairing Code Device Discovery - End User App API
+  description: >-
+    The [pairing code](./device-partner-api.html#section/Pairing-Codes) device discovery flow works as
+    follows:
+
+    1. The device owner fills out an onboarding form on Virtual Peaker's site.
+
+    2. At the end of the form, we provide them with a pairing code and instructions to enter it in the
+    Device Partner's app.
+
+    3. Optionally, the user selects which devices to enroll via the Device Partner's interface. Otherwise,
+    all devices are enrolled by default.
+
+    4. When the user enters the pairing code in the Device Partner's app, the Device Partner publishes
+    a device enrollment event to Virtual Peaker's API.
+
+    5. The publish event includes the pairing code, allowing Virtual Peaker to link the device back to
+    the onboarding form entry.
+
+    6. If multiple devices are enrolled, the same pairing code is used in each publish payload.
+
+    7. Virtual Peaker discovers the user details associated with the enrolled device(s).
+
+    8. We subscribe to the devices for data publishing and provide a `DEVICE_PUBLISH_SECRET`.
+
+
+    The user experience is driven through the Device Partner's web or mobile app after receiving the pairing
+    code. This links together the Virtual Peaker and Device Partner platforms.
+  humanURL: https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html
+  baseURL: https://partner.virtualpeaker.io/v1
+  tags:
+  - Pairing Code Device Discovery - End User App
+  properties:
+  - type: OpenAPI
+    url: openapi/virtual-peaker-pairing-code-device-discovery-end-user-app-api-openapi.yml
+  - type: APIReference
+    url: https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html
+  - type: Documentation
+    url: https://virtual-peaker.com/partners/device-partners/
+  - type: Blog
+    url: https://virtual-peaker.com/blog/gravity-connect-api-oem-derms-integrations/
+  - type: GettingStarted
+    url: >-
+      https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html#section/Getting-Started
+  - type: APIReference
+    url: https://assets.virtualpeaker.io/gravity-connect/vp-api.html
+  - type: Documentation
+    url: https://virtual-peaker.com/apis/
+  - type: Blog
+    url: https://virtual-peaker.com/blog/gravity-connect-v-openadr/
+  - type: Webhooks
+    url: asyncapi/virtual-peaker-gravity-connect-webhooks.yml
+- aid: >-
+    virtual-peaker:virtual-peaker-pairing-code-device-discovery-utility-commissioned-installation-api
+  name: Virtual Peaker Pairing Code Device Discovery - Utility Commissioned Installation API
+  description: >-
+    The utility commissioned [pairing code](./device-partner-api.html#section/Pairing-Codes) flow could
+    work as follows:
+
+    1. The device owner fills out an onboarding form on Virtual Peaker's site.
+
+    2. The utility reviews the submission and approves it if eligible.
+
+    3. Virtual Peaker informs the Device Partner of the install address and provides a pairing code.
+
+    4. The Device Partner takes necessary actions to install and activate the device on-site.
+
+    5. When installation is complete, the Device Partner publishes a device enrollment event to Virtual
+    Peaker.
+
+    6. The publish includes the pairing code to link with the onboarding form.
+
+    7. If multiple devices are installed, the same code is used in each payload.
+
+    8. Virtual Peaker discovers user details for the enrolled device(s).
+
+    9. We subscribe to the device(s) for data publishing and provide a `DEVICE_PUBLISH_SECRET`.
+
+
+    In this flow, the utility directs the installation. The pairing code links the user signup, Device
+    Partner platform, and Virtual Peaker after install. The flow described above can have slight variations
+    depending on the use case.
+  humanURL: https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html
+  baseURL: https://partner.virtualpeaker.io/v1
+  tags:
+  - Pairing Code Device Discovery - Utility Commissioned Installation
+  properties:
+  - type: OpenAPI
+    url: >-
+      openapi/virtual-peaker-pairing-code-device-discovery-utility-commissioned-installation-api-openapi.yml
+  - type: APIReference
+    url: https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html
+  - type: Documentation
+    url: https://virtual-peaker.com/partners/device-partners/
+  - type: Blog
+    url: https://virtual-peaker.com/blog/gravity-connect-api-oem-derms-integrations/
+  - type: GettingStarted
+    url: >-
+      https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html#section/Getting-Started
+  - type: APIReference
+    url: https://assets.virtualpeaker.io/gravity-connect/vp-api.html
+  - type: Documentation
+    url: https://virtual-peaker.com/apis/
+  - type: Blog
+    url: https://virtual-peaker.com/blog/gravity-connect-v-openadr/
+  - type: Webhooks
+    url: asyncapi/virtual-peaker-gravity-connect-webhooks.yml
+- aid: virtual-peaker:virtual-peaker-publishing-api
+  name: Virtual Peaker Publishing API
+  description: >-
+    All of the endpoints below allow the Device Partner to publish data to the Virtual Peaker platform,
+    which avoids Virtual Peaker having to constantly poll the data when there haven't been any changes.
+    Part of the [Device Partner Implementation](example.com) does include endpoint to read poll for data,
+    which could be used by Virtual Peaker to gather the first batch of data or for debugging.
+
+
+    **Notes:**
+
+    - The maximum supported payload size for all requests listed below is 262,144 bytes.
+  humanURL: https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html
+  baseURL: https://partner.virtualpeaker.io/v1
+  tags:
+  - Publishing
+  properties:
+  - type: OpenAPI
+    url: openapi/virtual-peaker-publishing-api-openapi.yml
+  - type: APIReference
+    url: https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html
+  - type: Documentation
+    url: https://virtual-peaker.com/partners/device-partners/
+  - type: Blog
+    url: https://virtual-peaker.com/blog/gravity-connect-api-oem-derms-integrations/
+  - type: GettingStarted
+    url: >-
+      https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html#section/Getting-Started
+  - type: APIReference
+    url: https://assets.virtualpeaker.io/gravity-connect/vp-api.html
+  - type: Documentation
+    url: https://virtual-peaker.com/apis/
+  - type: Blog
+    url: https://virtual-peaker.com/blog/gravity-connect-v-openadr/
   - type: Webhooks
     url: asyncapi/virtual-peaker-gravity-connect-webhooks.yml
 common:
+- type: Overlay
+  url: overlays/virtual-peaker-gravity-connect-device-partner-api-overlay.yaml
+- type: Overlay
+  url: overlays/virtual-peaker-gravity-connect-vpp-api-overlay.yaml
 - type: MCPServer
   url: mcp/virtual-peaker-mcp.yml
 - type: AgenticAccess
