@@ -1,0 +1,55 @@
+slug: virtual-peaker
+provider: Virtual Peaker
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Power & Water Utilities
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 4
+edges:
+- tag: Commands
+  spec_file: virtual-peaker-commands-api-openapi.yml
+  capability_id: BC-3840
+  capability_id_l1: BC-3840
+  capability_name: Distributed Energy Resource Management
+  confidence: 0.8
+  evidence: POST /command sendCommand Send command ... DELETE /command/{COMMAND_REFERENCE_ID} cancelCommand
+    — 'control smart devices as part of VPPs, demand response programs, and/or DER management programs'
+  reason: Command dispatch to distributed energy resource devices in a VPP/DERMS context is DER operational
+    coordination; ambiguous between VPP dispatch and demand response sub-capabilities, so L1 only.
+- tag: Devices
+  spec_file: virtual-peaker-devices-api-openapi.yml
+  capability_id: BC-3840
+  capability_id_l1: BC-3840
+  capability_name: Distributed Energy Resource Management
+  confidence: 0.8
+  evidence: GET /device/{DEVICE_UID} readDeviceDetails; PUT /device/{DEVICE_UID}/{SIGNAL_OR_SETTING}/{DATA_KEY}
+    updateSignalSetting
+  reason: Reading and setting signals/settings on DER devices (thermostats, batteries, etc.) for a VPP
+    platform is distributed energy resource operational management; sub-capability not clearly pinned.
+- tag: Group Management
+  spec_file: virtual-peaker-group-management-api-openapi.yml
+  capability_id: BC-3840
+  capability_id_l1: BC-3840
+  capability_name: Distributed Energy Resource Management
+  confidence: 0.75
+  evidence: POST /group createGroup; POST /group/{GROUP_ID}/devices manageGroupDevices; POST /command/{COMMAND_REFERENCE_ID}/opt-out
+    commandOptOut
+  reason: Grouping DER devices for aggregate command dispatch with participant opt-out is DER aggregation/demand-response
+    operations; sub-capability split between VPP operations and demand response so L1 only.
+- tag: Publishing
+  spec_file: virtual-peaker-publishing-api-openapi.yml
+  capability_id: BC-3840
+  capability_id_l1: BC-3840
+  capability_name: Distributed Energy Resource Management
+  confidence: 0.75
+  evidence: POST /publish/{PROGRAM_PUBLISH_KEY}/device publishDeviceEnrollment 'Publish device enrollment
+    status'; publishCommand 'Publish command status'
+  reason: Callback surface by which the VPP receives DER enrollment status and command/signal state —
+    DER onboarding and dispatch coordination; spans enrollment and control so L1 only.

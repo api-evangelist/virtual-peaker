@@ -400,6 +400,9 @@ apis:
   - type: Webhooks
     url: asyncapi/virtual-peaker-gravity-connect-webhooks.yml
 common:
+- type: CapabilityMap
+  url: capabilities/virtual-peaker-capability-edges.yml
+  name: Virtual Peaker Business Capability Map
 - type: Overlay
   url: overlays/virtual-peaker-gravity-connect-device-partner-api-overlay.yaml
 - type: Overlay
