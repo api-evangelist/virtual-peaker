@@ -286,7 +286,8 @@ apis:
     code. This links together the Virtual Peaker and Device Partner platforms.
   humanURL: https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html
   baseURL: https://partner.virtualpeaker.io/v1
-  tags:
+  tags: []
+  tags_raw:
   - Pairing Code Device Discovery - End User App
   properties:
   - type: OpenAPI
@@ -340,7 +341,8 @@ apis:
     depending on the use case.
   humanURL: https://assets.virtualpeaker.io/gravity-connect/device-partner-api.html
   baseURL: https://partner.virtualpeaker.io/v1
-  tags:
+  tags: []
+  tags_raw:
   - Pairing Code Device Discovery - Utility Commissioned Installation
   properties:
   - type: OpenAPI
