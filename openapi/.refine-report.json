@@ -1,0 +1,37 @@
+{
+  "provider": "virtual-peaker",
+  "sources": [
+    "_original/virtual-peaker-gravity-connect-device-partner-api-openapi.yml",
+    "_original/virtual-peaker-gravity-connect-vpp-api-openapi.yml"
+  ],
+  "outputs": [
+    "virtual-peaker-commands-api-openapi.yml",
+    "virtual-peaker-devices-api-openapi.yml",
+    "virtual-peaker-energy-interval-endpoint-api-openapi.yml",
+    "virtual-peaker-group-management-api-openapi.yml",
+    "virtual-peaker-oauth-device-discovery-preferred-api-openapi.yml",
+    "virtual-peaker-pairing-code-device-discovery-end-user-app-api-openapi.yml",
+    "virtual-peaker-pairing-code-device-discovery-utility-commissioned-installation-api-openapi.yml",
+    "virtual-peaker-publishing-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "virtual-peaker-gravity-connect-device-partner-api-openapi.yml: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "virtual-peaker-gravity-connect-device-partner-api-openapi.yml: declared missing tag: Energy Interval Endpoint",
+    "virtual-peaker-gravity-connect-vpp-api-openapi.yml: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "virtual-peaker-commands-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "virtual-peaker-devices-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "virtual-peaker-energy-interval-endpoint-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "virtual-peaker-group-management-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "virtual-peaker-oauth-device-discovery-preferred-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "virtual-peaker-pairing-code-device-discovery-end-user-app-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "virtual-peaker-pairing-code-device-discovery-utility-commissioned-installation-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "virtual-peaker-publishing-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
+}
