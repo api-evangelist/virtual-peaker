@@ -232,59 +232,26 @@ paths:
                 $ref: '#/components/schemas/Details'
 components:
   schemas:
-    SignalSetting:
+    UserDetails:
       type: object
       required:
-      - key
-      - value
-      - time
+      - email
       properties:
-        key:
+        userId:
           type: string
-        value:
-          oneOf:
-          - type: string
-          - type: number
-        time:
+          description: Unique identifier for the user within the device partner's platform
+        email:
           type: string
-          format: date-time
-          description: For more see, [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6). As an example, '2017-07-21T17:32:28Z'. The timezone is always zero UTC offset.
-    DeviceKindEnum:
-      type: string
-      enum:
-      - HWH
-      - TSTAT
-      - BATTERY
-      - EVSE
-      - V2G
-      - STORAGE-HVAC
-    Details:
-      type: object
-      required:
-      - message
-      properties:
-        message:
+        accountNumber:
           type: string
-          description: A human readable response. Because there's no standard for what is included or how information should be formatted, this should not be parsed and utilized programmatically.
-    DeviceDetails:
-      type: object
-      required:
-      - uid
-      - kind
-      - type
-      properties:
-        uid:
+          description: Utility customer identifier (if available)
+        firstName:
           type: string
-          description: DEVICE_UID, unique within the partner
-        kind:
-          $ref: '#/components/schemas/DeviceKindEnum'
-        name:
+        lastName:
           type: string
-        type:
-          type: string
-          description: model name/number
-        serialNumber:
-          type: string
+        serviceAddress:
+          description: Optional but strongly recommended
+          $ref: '#/components/schemas/ServiceAddress'
     CommandState:
       type: object
       required:
@@ -323,26 +290,59 @@ components:
         refId:
           type: string
           description: Command Reference ID
-    UserDetails:
+    Details:
       type: object
       required:
-      - email
+      - message
       properties:
-        userId:
+        message:
           type: string
-          description: Unique identifier for the user within the device partner's platform
-        email:
+          description: A human readable response. Because there's no standard for what is included or how information should be formatted, this should not be parsed and utilized programmatically.
+    DeviceKindEnum:
+      type: string
+      enum:
+      - HWH
+      - TSTAT
+      - BATTERY
+      - EVSE
+      - V2G
+      - STORAGE-HVAC
+    SignalSetting:
+      type: object
+      required:
+      - key
+      - value
+      - time
+      properties:
+        key:
           type: string
-        accountNumber:
+        value:
+          oneOf:
+          - type: string
+          - type: number
+        time:
           type: string
-          description: Utility customer identifier (if available)
-        firstName:
+          format: date-time
+          description: For more see, [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6). As an example, '2017-07-21T17:32:28Z'. The timezone is always zero UTC offset.
+    DeviceDetails:
+      type: object
+      required:
+      - uid
+      - kind
+      - type
+      properties:
+        uid:
           type: string
-        lastName:
+          description: DEVICE_UID, unique within the partner
+        kind:
+          $ref: '#/components/schemas/DeviceKindEnum'
+        name:
           type: string
-        serviceAddress:
-          description: Optional but strongly recommended
-          $ref: '#/components/schemas/ServiceAddress'
+        type:
+          type: string
+          description: model name/number
+        serialNumber:
+          type: string
     ServiceAddress:
       type: object
       description: Service address associated with the user account. Optional, but strongly recommended.
@@ -362,21 +362,6 @@ components:
           type: string
           description: A 2 letter indication of country. Defaults to 'US'. Following [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
   parameters:
-    programPublishKey:
-      name: PROGRAM_PUBLISH_KEY
-      in: path
-      required: true
-      description: The identifier of the program within Virtual Peaker
-      schema:
-        type: string
-    DeviceHMAC:
-      in: header
-      name: Authorization
-      description: '`Publish`, followed by the value of: HMAC(algorithm=`sha256``, key=DEVICE_PUBLISH_SECRET, data=BODY)'
-      schema:
-        type: string
-        pattern: ^Publish [a-f\d]+$
-      required: true
     HMAC:
       in: header
       name: Authorization
@@ -385,13 +370,22 @@ components:
         type: string
         pattern: ^Publish [a-f\d]+$
       required: true
+    DeviceHMAC:
+      in: header
+      name: Authorization
+      description: '`Publish`, followed by the value of: HMAC(algorithm=`sha256``, key=DEVICE_PUBLISH_SECRET, data=BODY)'
+      schema:
+        type: string
+        pattern: ^Publish [a-f\d]+$
+      required: true
+    programPublishKey:
+      name: PROGRAM_PUBLISH_KEY
+      in: path
+      required: true
+      description: The identifier of the program within Virtual Peaker
+      schema:
+        type: string
   responses:
-    unauthorized:
-      description: HMAC validation failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Details'
     badRequest:
       description: Request was not properly formatted
       content:
@@ -400,6 +394,12 @@ components:
             $ref: '#/components/schemas/Details'
     accepted:
       description: Message has been accepted for processing
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Details'
+    unauthorized:
+      description: HMAC validation failed
       content:
         application/json:
           schema:

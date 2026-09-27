@@ -80,46 +80,6 @@ paths:
                 $ref: '#/components/schemas/Details'
 components:
   schemas:
-    DeviceKindEnum:
-      type: string
-      enum:
-      - HWH
-      - TSTAT
-      - BATTERY
-      - EVSE
-      - V2G
-      - STORAGE-HVAC
-    Details:
-      type: object
-      required:
-      - message
-      properties:
-        message:
-          type: string
-          description: A human readable response. Because there's no standard for what is included or how information should be formatted, this should not be parsed and utilized programmatically.
-    DeviceDetails:
-      type: object
-      required:
-      - uid
-      - kind
-      - type
-      - isSubscribed
-      properties:
-        uid:
-          type: string
-          description: DEVICE_UID, unique within the partner
-        kind:
-          $ref: '#/components/schemas/DeviceKindEnum'
-        name:
-          type: string
-        type:
-          type: string
-          description: model name/number
-        serialNumber:
-          type: string
-        isSubscribed:
-          type: boolean
-          description: If true, Virtual Peaker has enabled publishing of device data
     UserDetails:
       type: object
       required:
@@ -141,6 +101,23 @@ components:
             type: string
         serviceAddress:
           $ref: '#/components/schemas/ServiceAddress'
+    Details:
+      type: object
+      required:
+      - message
+      properties:
+        message:
+          type: string
+          description: A human readable response. Because there's no standard for what is included or how information should be formatted, this should not be parsed and utilized programmatically.
+    DeviceKindEnum:
+      type: string
+      enum:
+      - HWH
+      - TSTAT
+      - BATTERY
+      - EVSE
+      - V2G
+      - STORAGE-HVAC
     ServiceAddress:
       type: object
       required:
@@ -164,15 +141,38 @@ components:
         country:
           type: string
           description: A 2 letter indication of country. Following [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
+    DeviceDetails:
+      type: object
+      required:
+      - uid
+      - kind
+      - type
+      - isSubscribed
+      properties:
+        uid:
+          type: string
+          description: DEVICE_UID, unique within the partner
+        kind:
+          $ref: '#/components/schemas/DeviceKindEnum'
+        name:
+          type: string
+        type:
+          type: string
+          description: model name/number
+        serialNumber:
+          type: string
+        isSubscribed:
+          type: boolean
+          description: If true, Virtual Peaker has enabled publishing of device data
   responses:
-    unauthorized:
-      description: The request was not properly authorized
+    badRequest:
+      description: Request was not properly formatted
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Details'
-    badRequest:
-      description: Request was not properly formatted
+    unauthorized:
+      description: The request was not properly authorized
       content:
         application/json:
           schema:

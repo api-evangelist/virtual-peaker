@@ -306,13 +306,15 @@ components:
         message:
           type: string
           description: A human readable response. Because there's no standard for what is included or how information should be formatted, this should not be parsed and utilized programmatically.
+  parameters:
+    groupID:
+      name: GROUP_ID
+      in: path
+      required: true
+      description: The id of the device being targeted
+      schema:
+        type: string
   responses:
-    unauthorized:
-      description: The request was not properly authorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Details'
     badRequest:
       description: Request was not properly formatted
       content:
@@ -325,14 +327,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Details'
-  parameters:
-    groupID:
-      name: GROUP_ID
-      in: path
-      required: true
-      description: The id of the device being targeted
-      schema:
-        type: string
+    unauthorized:
+      description: The request was not properly authorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Details'
   securitySchemes:
     device_partner_api_auth:
       type: oauth2

@@ -171,6 +171,83 @@ paths:
               schema:
                 $ref: '#/components/schemas/Details'
 components:
+  responses:
+    notFound:
+      description: The data could not be found. Potentially the device hasn't reported this datapoint yet or the device is offline and the device partner does not store the most recent value
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Details'
+    badRequest:
+      description: Request was not properly formatted
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Details'
+    unauthorized:
+      description: The request was not properly authorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Details'
+  schemas:
+    Details:
+      type: object
+      required:
+      - message
+      properties:
+        message:
+          type: string
+          description: A human readable response. Because there's no standard for what is included or how information should be formatted, this should not be parsed and utilized programmatically.
+    DeviceKindEnum:
+      type: string
+      enum:
+      - HWH
+      - TSTAT
+      - BATTERY
+      - EVSE
+      - V2G
+      - STORAGE-HVAC
+    SignalSetting:
+      type: object
+      required:
+      - key
+      - value
+      - time
+      properties:
+        key:
+          type: string
+        value:
+          oneOf:
+          - type: string
+          - type: number
+        time:
+          type: string
+          format: date-time
+          description: For more see, [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6). As an example, '2017-07-21T17:32:28Z'. The timezone is always zero UTC offset.
+    DeviceDetails:
+      type: object
+      required:
+      - uid
+      - kind
+      - type
+      - isSubscribed
+      properties:
+        uid:
+          type: string
+          description: DEVICE_UID, unique within the partner
+        kind:
+          $ref: '#/components/schemas/DeviceKindEnum'
+        name:
+          type: string
+        type:
+          type: string
+          description: model name/number
+        serialNumber:
+          type: string
+        isSubscribed:
+          type: boolean
+          description: If true, Virtual Peaker has enabled publishing of device data
   parameters:
     dataKey:
       name: DATA_KEY
@@ -196,83 +273,6 @@ components:
         enum:
         - signal
         - setting
-  schemas:
-    SignalSetting:
-      type: object
-      required:
-      - key
-      - value
-      - time
-      properties:
-        key:
-          type: string
-        value:
-          oneOf:
-          - type: string
-          - type: number
-        time:
-          type: string
-          format: date-time
-          description: For more see, [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6). As an example, '2017-07-21T17:32:28Z'. The timezone is always zero UTC offset.
-    DeviceKindEnum:
-      type: string
-      enum:
-      - HWH
-      - TSTAT
-      - BATTERY
-      - EVSE
-      - V2G
-      - STORAGE-HVAC
-    Details:
-      type: object
-      required:
-      - message
-      properties:
-        message:
-          type: string
-          description: A human readable response. Because there's no standard for what is included or how information should be formatted, this should not be parsed and utilized programmatically.
-    DeviceDetails:
-      type: object
-      required:
-      - uid
-      - kind
-      - type
-      - isSubscribed
-      properties:
-        uid:
-          type: string
-          description: DEVICE_UID, unique within the partner
-        kind:
-          $ref: '#/components/schemas/DeviceKindEnum'
-        name:
-          type: string
-        type:
-          type: string
-          description: model name/number
-        serialNumber:
-          type: string
-        isSubscribed:
-          type: boolean
-          description: If true, Virtual Peaker has enabled publishing of device data
-  responses:
-    unauthorized:
-      description: The request was not properly authorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Details'
-    badRequest:
-      description: Request was not properly formatted
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Details'
-    notFound:
-      description: The data could not be found. Potentially the device hasn't reported this datapoint yet or the device is offline and the device partner does not store the most recent value
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Details'
   securitySchemes:
     device_partner_api_auth:
       type: oauth2

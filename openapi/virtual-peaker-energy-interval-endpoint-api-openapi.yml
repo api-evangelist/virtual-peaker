@@ -66,6 +66,14 @@ paths:
                 $ref: '#/components/schemas/Details'
 components:
   schemas:
+    Details:
+      type: object
+      required:
+      - message
+      properties:
+        message:
+          type: string
+          description: A human readable response. Because there's no standard for what is included or how information should be formatted, this should not be parsed and utilized programmatically.
     EnergyInterval:
       type: object
       required:
@@ -91,14 +99,19 @@ components:
         country:
           type: string
           description: A 2 letter indication of country. Following [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
-    Details:
-      type: object
-      required:
-      - message
-      properties:
-        message:
-          type: string
-          description: A human readable response. Because there's no standard for what is included or how information should be formatted, this should not be parsed and utilized programmatically.
+  responses:
+    badRequest:
+      description: Request was not properly formatted
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Details'
+    unauthorized:
+      description: The request was not properly authorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Details'
   parameters:
     deviceUID:
       name: DEVICE_UID
@@ -107,19 +120,6 @@ components:
       description: The unique identifier for the target device within the partner's platform
       schema:
         type: string
-  responses:
-    unauthorized:
-      description: The request was not properly authorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Details'
-    badRequest:
-      description: Request was not properly formatted
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Details'
   securitySchemes:
     device_partner_api_auth:
       type: oauth2
