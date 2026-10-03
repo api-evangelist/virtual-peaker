@@ -178,36 +178,19 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Details'
-    badRequest:
-      description: Request was not properly formatted
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Details'
     unauthorized:
       description: The request was not properly authorized
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Details'
+    badRequest:
+      description: Request was not properly formatted
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Details'
   schemas:
-    Details:
-      type: object
-      required:
-      - message
-      properties:
-        message:
-          type: string
-          description: A human readable response. Because there's no standard for what is included or how information should be formatted, this should not be parsed and utilized programmatically.
-    DeviceKindEnum:
-      type: string
-      enum:
-      - HWH
-      - TSTAT
-      - BATTERY
-      - EVSE
-      - V2G
-      - STORAGE-HVAC
     SignalSetting:
       type: object
       required:
@@ -225,6 +208,15 @@ components:
           type: string
           format: date-time
           description: For more see, [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6). As an example, '2017-07-21T17:32:28Z'. The timezone is always zero UTC offset.
+    DeviceKindEnum:
+      type: string
+      enum:
+      - HWH
+      - TSTAT
+      - BATTERY
+      - EVSE
+      - V2G
+      - STORAGE-HVAC
     DeviceDetails:
       type: object
       required:
@@ -248,19 +240,27 @@ components:
         isSubscribed:
           type: boolean
           description: If true, Virtual Peaker has enabled publishing of device data
+    Details:
+      type: object
+      required:
+      - message
+      properties:
+        message:
+          type: string
+          description: A human readable response. Because there's no standard for what is included or how information should be formatted, this should not be parsed and utilized programmatically.
   parameters:
-    dataKey:
-      name: DATA_KEY
-      in: path
-      required: true
-      description: The signal/setting type being read, varies based on device type, see documentation
-      schema:
-        type: string
     deviceUID:
       name: DEVICE_UID
       in: path
       required: true
       description: The unique identifier for the target device within the partner's platform
+      schema:
+        type: string
+    dataKey:
+      name: DATA_KEY
+      in: path
+      required: true
+      description: The signal/setting type being read, varies based on device type, see documentation
       schema:
         type: string
     signalSetting:

@@ -280,7 +280,34 @@ paths:
               schema:
                 $ref: '#/components/schemas/Details'
 components:
+  responses:
+    accepted:
+      description: Message has been accepted for processing
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Details'
+    unauthorized:
+      description: The request was not properly authorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Details'
+    badRequest:
+      description: Request was not properly formatted
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Details'
   schemas:
+    Details:
+      type: object
+      required:
+      - message
+      properties:
+        message:
+          type: string
+          description: A human readable response. Because there's no standard for what is included or how information should be formatted, this should not be parsed and utilized programmatically.
     GroupDetails:
       type: object
       required:
@@ -298,14 +325,6 @@ components:
         name:
           type: string
           description: Human readable name of group
-    Details:
-      type: object
-      required:
-      - message
-      properties:
-        message:
-          type: string
-          description: A human readable response. Because there's no standard for what is included or how information should be formatted, this should not be parsed and utilized programmatically.
   parameters:
     groupID:
       name: GROUP_ID
@@ -314,25 +333,6 @@ components:
       description: The id of the device being targeted
       schema:
         type: string
-  responses:
-    badRequest:
-      description: Request was not properly formatted
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Details'
-    accepted:
-      description: Message has been accepted for processing
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Details'
-    unauthorized:
-      description: The request was not properly authorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Details'
   securitySchemes:
     device_partner_api_auth:
       type: oauth2
