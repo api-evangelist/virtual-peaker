@@ -54,28 +54,36 @@ paths:
               schema:
                 $ref: '#/components/schemas/Details'
 components:
+  parameters:
+    deviceUID:
+      name: DEVICE_UID
+      in: path
+      required: true
+      description: The unique identifier for the target device within the partner's platform
+      schema:
+        type: string
+  responses:
+    badRequest:
+      description: Request was not properly formatted
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Details'
+    unauthorized:
+      description: The request was not properly authorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Details'
   schemas:
-    UserDetails:
+    Details:
       type: object
       required:
-      - userId
+      - message
       properties:
-        userId:
+        message:
           type: string
-          description: Unique identifier for the user within the device partner's platform
-        accountNumber:
-          type: string
-          description: Utility customer identifier (if available)
-        name:
-          type: string
-        email:
-          type: string
-        deviceUids:
-          type: array
-          items:
-            type: string
-        serviceAddress:
-          $ref: '#/components/schemas/ServiceAddress'
+          description: A human readable response. Because there's no standard for what is included or how information should be formatted, this should not be parsed and utilized programmatically.
     ServiceAddress:
       type: object
       required:
@@ -99,35 +107,27 @@ components:
         country:
           type: string
           description: A 2 letter indication of country. Following [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
-    Details:
+    UserDetails:
       type: object
       required:
-      - message
+      - userId
       properties:
-        message:
+        userId:
           type: string
-          description: A human readable response. Because there's no standard for what is included or how information should be formatted, this should not be parsed and utilized programmatically.
-  parameters:
-    deviceUID:
-      name: DEVICE_UID
-      in: path
-      required: true
-      description: The unique identifier for the target device within the partner's platform
-      schema:
-        type: string
-  responses:
-    unauthorized:
-      description: The request was not properly authorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Details'
-    badRequest:
-      description: Request was not properly formatted
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Details'
+          description: Unique identifier for the user within the device partner's platform
+        accountNumber:
+          type: string
+          description: Utility customer identifier (if available)
+        name:
+          type: string
+        email:
+          type: string
+        deviceUids:
+          type: array
+          items:
+            type: string
+        serviceAddress:
+          $ref: '#/components/schemas/ServiceAddress'
   securitySchemes:
     device_partner_api_auth:
       type: oauth2

@@ -231,122 +231,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Details'
 components:
-  parameters:
-    programPublishKey:
-      name: PROGRAM_PUBLISH_KEY
-      in: path
-      required: true
-      description: The identifier of the program within Virtual Peaker
-      schema:
-        type: string
-    HMAC:
-      in: header
-      name: Authorization
-      description: '`Publish`, followed by the value of: HMAC(algorithm=`sha256``, key=PROGRAM_PUBLISH_SECRET, data=BODY)'
-      schema:
-        type: string
-        pattern: ^Publish [a-f\d]+$
-      required: true
-    DeviceHMAC:
-      in: header
-      name: Authorization
-      description: '`Publish`, followed by the value of: HMAC(algorithm=`sha256``, key=DEVICE_PUBLISH_SECRET, data=BODY)'
-      schema:
-        type: string
-        pattern: ^Publish [a-f\d]+$
-      required: true
   schemas:
-    SignalSetting:
-      type: object
-      required:
-      - key
-      - value
-      - time
-      properties:
-        key:
-          type: string
-        value:
-          oneOf:
-          - type: string
-          - type: number
-        time:
-          type: string
-          format: date-time
-          description: For more see, [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6). As an example, '2017-07-21T17:32:28Z'. The timezone is always zero UTC offset.
-    UserDetails:
-      type: object
-      required:
-      - email
-      properties:
-        userId:
-          type: string
-          description: Unique identifier for the user within the device partner's platform
-        email:
-          type: string
-        accountNumber:
-          type: string
-          description: Utility customer identifier (if available)
-        firstName:
-          type: string
-        lastName:
-          type: string
-        serviceAddress:
-          description: Optional but strongly recommended
-          $ref: '#/components/schemas/ServiceAddress'
-    ServiceAddress:
-      type: object
-      description: Service address associated with the user account. Optional, but strongly recommended.
-      properties:
-        streetAddress:
-          type: string
-        streetAddress2:
-          type: string
-        city:
-          type: string
-        state:
-          type: string
-          description: Within the US, passed as a 2 letter abbreviation
-        postalCode:
-          type: string
-        country:
-          type: string
-          description: A 2 letter indication of country. Defaults to 'US'. Following [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
-    DeviceKindEnum:
-      type: string
-      enum:
-      - HWH
-      - TSTAT
-      - BATTERY
-      - EVSE
-      - V2G
-      - STORAGE-HVAC
-    DeviceDetails:
-      type: object
-      required:
-      - uid
-      - kind
-      - type
-      properties:
-        uid:
-          type: string
-          description: DEVICE_UID, unique within the partner
-        kind:
-          $ref: '#/components/schemas/DeviceKindEnum'
-        name:
-          type: string
-        type:
-          type: string
-          description: model name/number
-        serialNumber:
-          type: string
-    Details:
-      type: object
-      required:
-      - message
-      properties:
-        message:
-          type: string
-          description: A human readable response. Because there's no standard for what is included or how information should be formatted, this should not be parsed and utilized programmatically.
     CommandState:
       type: object
       required:
@@ -385,13 +270,98 @@ components:
         refId:
           type: string
           description: Command Reference ID
+    Details:
+      type: object
+      required:
+      - message
+      properties:
+        message:
+          type: string
+          description: A human readable response. Because there's no standard for what is included or how information should be formatted, this should not be parsed and utilized programmatically.
+    SignalSetting:
+      type: object
+      required:
+      - key
+      - value
+      - time
+      properties:
+        key:
+          type: string
+        value:
+          oneOf:
+          - type: string
+          - type: number
+        time:
+          type: string
+          format: date-time
+          description: For more see, [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6). As an example, '2017-07-21T17:32:28Z'. The timezone is always zero UTC offset.
+    ServiceAddress:
+      type: object
+      description: Service address associated with the user account. Optional, but strongly recommended.
+      properties:
+        streetAddress:
+          type: string
+        streetAddress2:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+          description: Within the US, passed as a 2 letter abbreviation
+        postalCode:
+          type: string
+        country:
+          type: string
+          description: A 2 letter indication of country. Defaults to 'US'. Following [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
+    DeviceDetails:
+      type: object
+      required:
+      - uid
+      - kind
+      - type
+      properties:
+        uid:
+          type: string
+          description: DEVICE_UID, unique within the partner
+        kind:
+          $ref: '#/components/schemas/DeviceKindEnum'
+        name:
+          type: string
+        type:
+          type: string
+          description: model name/number
+        serialNumber:
+          type: string
+    DeviceKindEnum:
+      type: string
+      enum:
+      - HWH
+      - TSTAT
+      - BATTERY
+      - EVSE
+      - V2G
+      - STORAGE-HVAC
+    UserDetails:
+      type: object
+      required:
+      - email
+      properties:
+        userId:
+          type: string
+          description: Unique identifier for the user within the device partner's platform
+        email:
+          type: string
+        accountNumber:
+          type: string
+          description: Utility customer identifier (if available)
+        firstName:
+          type: string
+        lastName:
+          type: string
+        serviceAddress:
+          description: Optional but strongly recommended
+          $ref: '#/components/schemas/ServiceAddress'
   responses:
-    unauthorized:
-      description: HMAC validation failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Details'
     badRequest:
       description: Request was not properly formatted
       content:
@@ -404,3 +374,33 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Details'
+    unauthorized:
+      description: HMAC validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Details'
+  parameters:
+    HMAC:
+      in: header
+      name: Authorization
+      description: '`Publish`, followed by the value of: HMAC(algorithm=`sha256``, key=PROGRAM_PUBLISH_SECRET, data=BODY)'
+      schema:
+        type: string
+        pattern: ^Publish [a-f\d]+$
+      required: true
+    programPublishKey:
+      name: PROGRAM_PUBLISH_KEY
+      in: path
+      required: true
+      description: The identifier of the program within Virtual Peaker
+      schema:
+        type: string
+    DeviceHMAC:
+      in: header
+      name: Authorization
+      description: '`Publish`, followed by the value of: HMAC(algorithm=`sha256``, key=DEVICE_PUBLISH_SECRET, data=BODY)'
+      schema:
+        type: string
+        pattern: ^Publish [a-f\d]+$
+      required: true
