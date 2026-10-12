@@ -1,0 +1,28 @@
+edges:
+- partner_name: OpenADR
+  partner: null
+  type: contract
+  channel: network-directory
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://products.openadr.org/
+  contract_reference:
+    register: OpenADR Alliance certified product database
+    spec_file: null
+    role: certified-product
+    registered_name: Virtual Peaker, Inc.
+    matched_domain: virtual-peaker.com
+    certified_products:
+    - product: Virtual Peaker VEN
+      type: VEN (client)
+      lapsed: false
+      profile: 2.0b
+      page: https://products.openadr.org/product/virtual-peaker-inc-virtual-peaker-ven/
+    profiles:
+    - 2.0b
+    detected_by: sweep-energy.py
+    detected: '2026-10-13'
+generated: '2026-10-13'
+method: searched
+checked:
+- https://products.openadr.org/
