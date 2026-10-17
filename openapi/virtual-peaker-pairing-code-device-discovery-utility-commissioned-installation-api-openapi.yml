@@ -113,21 +113,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Details'
 components:
-  parameters:
-    deviceUID:
-      name: DEVICE_UID
-      in: path
-      required: true
-      description: The unique identifier for the target device within the partner's platform
-      schema:
-        type: string
   responses:
-    badRequest:
-      description: Request was not properly formatted
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Details'
     accepted:
       description: Message has been accepted for processing
       content:
@@ -140,15 +126,34 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Details'
+    badRequest:
+      description: Request was not properly formatted
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Details'
   schemas:
-    Details:
+    UserDetails:
       type: object
       required:
-      - message
+      - userId
       properties:
-        message:
+        userId:
           type: string
-          description: A human readable response. Because there's no standard for what is included or how information should be formatted, this should not be parsed and utilized programmatically.
+          description: Unique identifier for the user within the device partner's platform
+        accountNumber:
+          type: string
+          description: Utility customer identifier (if available)
+        name:
+          type: string
+        email:
+          type: string
+        deviceUids:
+          type: array
+          items:
+            type: string
+        serviceAddress:
+          $ref: '#/components/schemas/ServiceAddress'
     ServiceAddress:
       type: object
       required:
@@ -181,27 +186,22 @@ components:
       - EVSE
       - V2G
       - STORAGE-HVAC
-    UserDetails:
+    Details:
       type: object
       required:
-      - userId
+      - message
       properties:
-        userId:
+        message:
           type: string
-          description: Unique identifier for the user within the device partner's platform
-        accountNumber:
-          type: string
-          description: Utility customer identifier (if available)
-        name:
-          type: string
-        email:
-          type: string
-        deviceUids:
-          type: array
-          items:
-            type: string
-        serviceAddress:
-          $ref: '#/components/schemas/ServiceAddress'
+          description: A human readable response. Because there's no standard for what is included or how information should be formatted, this should not be parsed and utilized programmatically.
+  parameters:
+    deviceUID:
+      name: DEVICE_UID
+      in: path
+      required: true
+      description: The unique identifier for the target device within the partner's platform
+      schema:
+        type: string
   securitySchemes:
     device_partner_api_auth:
       type: oauth2

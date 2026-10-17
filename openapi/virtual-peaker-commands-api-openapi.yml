@@ -153,6 +153,15 @@ paths:
                 $ref: '#/components/schemas/Details'
 components:
   schemas:
+    DeviceKindEnum:
+      type: string
+      enum:
+      - HWH
+      - TSTAT
+      - BATTERY
+      - EVSE
+      - V2G
+      - STORAGE-HVAC
     CommandState:
       type: object
       required:
@@ -199,15 +208,6 @@ components:
         message:
           type: string
           description: A human readable response. Because there's no standard for what is included or how information should be formatted, this should not be parsed and utilized programmatically.
-    DeviceKindEnum:
-      type: string
-      enum:
-      - HWH
-      - TSTAT
-      - BATTERY
-      - EVSE
-      - V2G
-      - STORAGE-HVAC
   responses:
     unauthorized:
       description: The request was not properly authorized

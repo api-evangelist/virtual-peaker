@@ -79,28 +79,28 @@ paths:
               schema:
                 $ref: '#/components/schemas/Details'
 components:
-  responses:
-    unauthorized:
-      description: The request was not properly authorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Details'
-    badRequest:
-      description: Request was not properly formatted
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Details'
   schemas:
-    Details:
+    UserDetails:
       type: object
       required:
-      - message
+      - userId
       properties:
-        message:
+        userId:
           type: string
-          description: A human readable response. Because there's no standard for what is included or how information should be formatted, this should not be parsed and utilized programmatically.
+          description: Unique identifier for the user within the device partner's platform
+        accountNumber:
+          type: string
+          description: Utility customer identifier (if available)
+        name:
+          type: string
+        email:
+          type: string
+        deviceUids:
+          type: array
+          items:
+            type: string
+        serviceAddress:
+          $ref: '#/components/schemas/ServiceAddress'
     ServiceAddress:
       type: object
       required:
@@ -156,27 +156,27 @@ components:
         isSubscribed:
           type: boolean
           description: If true, Virtual Peaker has enabled publishing of device data
-    UserDetails:
+    Details:
       type: object
       required:
-      - userId
+      - message
       properties:
-        userId:
+        message:
           type: string
-          description: Unique identifier for the user within the device partner's platform
-        accountNumber:
-          type: string
-          description: Utility customer identifier (if available)
-        name:
-          type: string
-        email:
-          type: string
-        deviceUids:
-          type: array
-          items:
-            type: string
-        serviceAddress:
-          $ref: '#/components/schemas/ServiceAddress'
+          description: A human readable response. Because there's no standard for what is included or how information should be formatted, this should not be parsed and utilized programmatically.
+  responses:
+    unauthorized:
+      description: The request was not properly authorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Details'
+    badRequest:
+      description: Request was not properly formatted
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Details'
   securitySchemes:
     device_partner_api_auth:
       type: oauth2
