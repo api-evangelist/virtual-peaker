@@ -26,7 +26,21 @@
       "source": "https://virtual-peaker.com/feed/",
       "feed_url": "https://virtual-peaker.com/feed/",
       "title": "",
-      "saved": 2,
+      "saved": 0,
+      "method": "feed"
+    },
+    {
+      "source": "https://virtual-peaker.com/blog/gravity-connect-api-oem-derms-integrations/feed/",
+      "feed_url": "https://virtual-peaker.com/blog/gravity-connect-api-oem-derms-integrations/feed/",
+      "title": "",
+      "saved": 0,
+      "method": "feed"
+    },
+    {
+      "source": "https://virtual-peaker.com/blog/gravity-connect-v-openadr/feed/",
+      "feed_url": "https://virtual-peaker.com/blog/gravity-connect-v-openadr/feed/",
+      "title": "",
+      "saved": 0,
       "method": "feed"
     },
     {
@@ -58,6 +72,6 @@
       "method": "none"
     }
   ],
-  "post_count": 2,
-  "fetched": "2026-10-10T13:15:00Z"
+  "post_count": 9,
+  "fetched": "2026-10-17T14:53:57Z"
 }
